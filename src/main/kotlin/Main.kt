@@ -1,7 +1,17 @@
+import controllers.DoctorAPI
+import controllers.PatientAPI
+import models.Doctor
+import models.Patient
+import utils.ScannerInput.readNextChar
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 import java.lang.System.exit
 import java.util.*
 
+
 val scanner = Scanner(System.`in`)
+val patientAPI = PatientAPI()
+val doctorAPI = DoctorAPI()
 
 fun main(args: Array<String>) {
     println("Healthcare Management System V1.0")
@@ -68,18 +78,68 @@ fun doctorMenu(): Int {
 
 fun addDoctor() {
     println("You chose Add Doctor")
+
+    val doctorID = readNextInt("Enter the doctor's ID: ")
+    val doctorName = readNextLine("Enter the doctor's name: ")
+    val specialization = readNextLine("Enter the doctor's specialization: ")
+    val phoneNumber = readNextLine("Enter the doctor's phone number: ")
+
+    val newDoctor = Doctor(doctorID, doctorName, specialization, phoneNumber)
+
+    val isAdded = doctorAPI.add(newDoctor)
+
+    if (isAdded) {
+        println("Doctor Added Successfully")
+    } else {
+        println("Failed to Add Doctor")
+    }
 }
 
+
 fun listDoctor() {
-    println("You chose List Doctor")
+    println(doctorAPI.listAllDoctors())
 }
 
 fun updateDoctor() {
-    println("You chose Update Doctor")
+    listDoctor()
+    if (doctorAPI.numberOfDoctors() > 0) {
+
+        val indexToUpdate = readNextInt("Enter the index of the Doctor to update: ")
+        if (doctorAPI.isValidIndex(indexToUpdate)) {
+            val updatedName = readNextLine("Enter the updated name: ")
+            val updatedSpecialization = readNextLine("Enter the updated specialization: ")
+            val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
+
+            if (doctorAPI.updateDoctor(
+                    indexToUpdate,
+                    Doctor(-1, updatedName, updatedSpecialization, updatedPhoneNumber)
+                )
+            ) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no doctors for this index number")
+        }
+    }
 }
 
+
 fun deleteDoctor() {
-    println("You chose Delete Doctor")
+
+    listDoctor()
+    if (doctorAPI.numberOfDoctors() > 0) {
+
+        val indexToDelete = readNextInt("Enter the index of the Doctor to delete: ")
+
+        val doctorToDelete = doctorAPI.deleteDoctor(indexToDelete)
+        if (doctorToDelete != null) {
+            println("Delete Successful! Deleted Doctor: ${doctorToDelete.name} From The System")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun runPatientMenu() {
@@ -113,19 +173,72 @@ fun patientMenu(): Int {
 }
 
 fun addPatient() {
-    println("You chose Add Patient")
+    val patientID = readNextInt("Enter the patient's ID: ")
+    val patientName = readNextLine("Enter the patient's name: ")
+    val dateOfBirth = readNextLine("Enter the patient's date of birth: ")
+    val gender = readNextChar("Enter the patient's gender (M/F): ")
+    val phoneNumber = readNextLine("Enter the patient's phone number: ")
+
+
+    val isAdded = patientAPI.add(Patient(patientID, patientName, dateOfBirth, gender, phoneNumber))
+
+    if (isAdded) {
+        println("Patient Added Successfully")
+    } else {
+        println("Failed to Add Patient")
+    }
+
 }
+
+
 
 fun listPatient() {
-    println("You chose List Patient")
-}
+        println(patientAPI.listAllPatients())
+    }
 
-fun updatePatient() {
-    println("You chose Update Patient")
-}
+
+
+    fun updatePatient() {
+        listPatient()
+        if (patientAPI.numberOfPatients() > 0) {
+            val indexToUpdate = readNextInt("Enter the index of the Patient to update: ")
+            if (patientAPI.isValidIndex(indexToUpdate)) {
+                val updatedName = readNextLine("Enter the updated name: ")
+                val updatedDateOfBirth = readNextLine("Enter the updated date of birth: ")
+                val updatedGender = readNextChar("Enter the updated gender (M/F): ")
+                val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
+
+                if (patientAPI.updatePatient(
+                        indexToUpdate,
+                        Patient(-1, updatedName, updatedDateOfBirth, updatedGender, updatedPhoneNumber)
+                    )
+                ) {
+                    println("Update Successful")
+                } else {
+                    println("Update Failed")
+                }
+            } else {
+                println("There are no patients for this index number")
+            }
+        }
+    }
+
+
 
 fun deletePatient() {
-    println("You chose Delete Patient")
+
+    listPatient()
+    if (patientAPI.numberOfPatients() > 0) {
+
+        val indexToDelete = readNextInt("Enter the index of the Patient to delete: ")
+
+        val patientToDelete = patientAPI.deletePatient(indexToDelete)
+        if (patientToDelete != null) {
+            println("Delete Successful! Deleted Patient: ${patientToDelete.name} From The System")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp() {
