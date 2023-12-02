@@ -101,8 +101,30 @@ fun listDoctor() {
 }
 
 fun updateDoctor() {
-    println("You chose Update Doctor")
+    listDoctor()
+    if (doctorAPI.numberOfDoctors() > 0) {
+
+        val indexToUpdate = readNextInt("Enter the index of the Doctor to update: ")
+        if (doctorAPI.isValidIndex(indexToUpdate)) {
+            val updatedName = readNextLine("Enter the updated name: ")
+            val updatedSpecialization = readNextLine("Enter the updated specialization: ")
+            val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
+
+            if (doctorAPI.updateDoctor(
+                    indexToUpdate,
+                    Doctor(-1, updatedName, updatedSpecialization, updatedPhoneNumber)
+                )
+            ) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no doctors for this index number")
+        }
+    }
 }
+
 
 fun deleteDoctor() {
 
@@ -175,9 +197,33 @@ fun listPatient() {
     }
 
 
-fun updatePatient() {
-    println("You chose Update Patient")
-}
+
+    fun updatePatient() {
+        listPatient()
+        if (patientAPI.numberOfPatients() > 0) {
+            val indexToUpdate = readNextInt("Enter the index of the Patient to update: ")
+            if (patientAPI.isValidIndex(indexToUpdate)) {
+                val updatedName = readNextLine("Enter the updated name: ")
+                val updatedDateOfBirth = readNextLine("Enter the updated date of birth: ")
+                val updatedGender = readNextChar("Enter the updated gender (M/F): ")
+                val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
+
+                if (patientAPI.updatePatient(
+                        indexToUpdate,
+                        Patient(-1, updatedName, updatedDateOfBirth, updatedGender, updatedPhoneNumber)
+                    )
+                ) {
+                    println("Update Successful")
+                } else {
+                    println("Update Failed")
+                }
+            } else {
+                println("There are no patients for this index number")
+            }
+        }
+    }
+
+
 
 fun deletePatient() {
 

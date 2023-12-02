@@ -29,16 +29,34 @@ class DoctorAPI {
     fun numberOfDoctors(): Int {
         return doctors.size
     }
+
     fun deleteDoctor(indexToDelete: Int): Doctor? {
         return if (isValidListIndex(indexToDelete, doctors)) {
             doctors.removeAt(indexToDelete)
         } else null
     }
 
-fun findDoctor(index: Int): Doctor? {
-    return if (Utilities.isValidListIndex(index, doctors)) {
-        doctors[index]
-    } else null
-}
-}
+    fun findDoctor(index: Int): Doctor? {
+        return if (Utilities.isValidListIndex(index, doctors)) {
+            doctors[index]
+        } else null
+    }
 
+    fun updateDoctor(indexToUpdate: Int, updatedDoctor: Doctor?): Boolean {
+
+        val foundDoctor = findDoctor(indexToUpdate)
+
+
+        if (foundDoctor != null && updatedDoctor != null) {
+            foundDoctor.name = updatedDoctor.name
+            foundDoctor.specialization = updatedDoctor.specialization
+            foundDoctor.phoneNumber = updatedDoctor.phoneNumber
+            return true
+        }
+
+        return false
+    }
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, doctors)
+    }
+}
