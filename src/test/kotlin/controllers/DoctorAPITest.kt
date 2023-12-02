@@ -3,6 +3,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import models.Doctor
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertFalse
+import java.io.File
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class DoctorAPITest {
 
@@ -57,5 +62,38 @@ class DoctorAPITest {
         assertEquals(1, doctorAPI.numberOfDoctors())
         assertTrue(doctorsString.contains("dr. smith"))
     }
+    @Test
+    fun `updating a doctor that does not exist returns false`() {
+
+        val doctorAPI = DoctorAPI()
+
+
+        assertFalse(
+            doctorAPI.updateDoctor(
+                0,
+                Doctor(1, "Updating Doctor", "In-Progress", "123-456-7890")
+            )
+        )
+    }
+
+    @Test
+    fun `updating a doctor that exists returns true and updates`() {
+
+        val doctorAPI = DoctorAPI()
+        val doctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+        doctorAPI.add(doctor)
+
+
+        val updated = doctorAPI.updateDoctor(
+            0,
+            Doctor(1, "Updating Doctor", "In-Progress", "987-654-3210")
+        )
+
+
+        assertTrue(updated)
+        assertEquals("Updating Doctor", doctorAPI.findDoctor(0)?.name)
+        assertEquals("987-654-3210", doctorAPI.findDoctor(0)?.phoneNumber)
+    }
 }
+
 
