@@ -1,10 +1,14 @@
-import controllers.patientAPI
+import controllers.PatientAPI
 import models.Patient
+import utils.ScannerInput.readNextChar
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 import java.lang.System.exit
 import java.util.*
 
 
 val scanner = Scanner(System.`in`)
+val patientAPI = PatientAPI()
 
 fun main(args: Array<String>) {
     println("Healthcare Management System V1.0")
@@ -116,9 +120,20 @@ fun patientMenu(): Int {
 }
 
 fun addPatient() {
+    val patientID = readNextInt("Enter the patient's ID: ")
+    val patientName = readNextLine("Enter the patient's name: ")
+    val dateOfBirth = readNextLine("Enter the patient's date of birth: ")
+    val gender = readNextChar("Enter the patient's gender (M/F): ")
+    val phoneNumber = readNextLine("Enter the patient's phone number: ")
 
 
+    val isAdded = patientAPI.add(Patient(patientID, patientName, dateOfBirth, gender, phoneNumber))
 
+    if (isAdded) {
+        println("Patient Added Successfully")
+    } else {
+        println("Failed to Add Patient")
+    }
 
 }
 
