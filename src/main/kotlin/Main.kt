@@ -105,7 +105,19 @@ fun updateDoctor() {
 }
 
 fun deleteDoctor() {
-    println("You chose Delete Doctor")
+
+    listDoctor()
+    if (doctorAPI.numberOfDoctors() > 0) {
+
+        val indexToDelete = readNextInt("Enter the index of the Doctor to delete: ")
+
+        val doctorToDelete = doctorAPI.deleteDoctor(indexToDelete)
+        if (doctorToDelete != null) {
+            println("Delete Successful! Deleted Doctor: ${doctorToDelete.name} From The System")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun runPatientMenu() {

@@ -28,5 +28,10 @@ class DoctorAPI {
     fun numberOfDoctors(): Int {
         return doctors.size
     }
+    fun deleteDoctor(indexToDelete: Int): Doctor? {
+        return if (isValidListIndex(indexToDelete, doctors)) {
+            doctors.removeAt(indexToDelete)
+        } else null
     }
+}
 
