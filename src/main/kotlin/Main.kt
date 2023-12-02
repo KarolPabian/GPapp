@@ -97,7 +97,7 @@ fun addDoctor() {
 
 
 fun listDoctor() {
-    println("You chose List Doctor")
+    println(doctorAPI.listAllDoctors())
 }
 
 fun updateDoctor() {
