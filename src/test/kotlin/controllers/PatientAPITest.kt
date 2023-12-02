@@ -107,4 +107,26 @@ class PatientAPITest {
             assertEquals("987-654-3210", patientAPI.findPatient(0)?.phoneNumber)
         }
     }
+    @Nested
+    inner class DeletePatients {
+
+        @Test
+        fun `deleting a Patient that does not exist returns null`() {
+            val emptyPatientAPI = PatientAPI()
+
+            assertNull(emptyPatientAPI.deletePatient(0))
+        }
+
+        @Test
+        fun `deleting a patient that exists deletes and returns deleted object`() {
+            val patientAPI = PatientAPI()
+            val patient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
+            patientAPI.add(patient)
+
+            val deletedPatient = patientAPI.deletePatient(0)
+
+            assertEquals(0, patientAPI.numberOfPatients())
+            assertEquals(patient, deletedPatient)
+        }
+    }
 }
