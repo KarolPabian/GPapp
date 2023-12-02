@@ -181,6 +181,18 @@ fun updatePatient() {
 
 fun deletePatient() {
 
+    listPatient()
+    if (patientAPI.numberOfPatients() > 0) {
+
+        val indexToDelete = readNextInt("Enter the index of the Patient to delete: ")
+
+        val patientToDelete = patientAPI.deletePatient(indexToDelete)
+        if (patientToDelete != null) {
+            println("Delete Successful! Deleted Patient: ${patientToDelete.name} From The System")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp() {

@@ -1,6 +1,8 @@
 package controllers
 
+import models.Doctor
 import models.Patient
+import utils.Utilities
 
 class PatientAPI {
 
@@ -26,5 +28,15 @@ class PatientAPI {
     fun numberOfPatients(): Int {
         return patients.size
     }
+
+    fun deletePatient(indexToDelete: Int): Patient? {
+        return if (Utilities.isValidListIndex(indexToDelete, patients)) {
+            patients.removeAt(indexToDelete)
+        } else null
+    }
 }
+
+
+
+
 
