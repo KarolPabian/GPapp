@@ -9,6 +9,7 @@ class PatientAPI {
     fun add(patient: Patient): Boolean {
         return patients.add(patient)
     }
+
     fun listAllPatients(): String {
         return if (patients.isEmpty()) {
             "No patients stored"
@@ -20,4 +21,10 @@ class PatientAPI {
             listOfPatients
         }
     }
+
+
+    fun numberOfPatients(): Int {
+        return patients.size
+    }
 }
+

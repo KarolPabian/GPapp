@@ -168,7 +168,7 @@ fun updatePatient() {
 }
 
 fun deletePatient() {
-    println("You chose Delete Patient")
+
 }
 
 fun exitApp() {

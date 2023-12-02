@@ -1,6 +1,7 @@
 package controllers
 
 import models.Doctor
+import utils.Utilities.isValidListIndex
 
 class DoctorAPI {
 
@@ -21,5 +22,11 @@ class DoctorAPI {
             listOfDoctors
 
         }
+
     }
-}
+
+    fun numberOfDoctors(): Int {
+        return doctors.size
+    }
+    }
+
