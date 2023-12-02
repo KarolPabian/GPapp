@@ -2,16 +2,18 @@ import controllers.DoctorAPI
 import controllers.PatientAPI
 import models.Doctor
 import models.Patient
+import persistence.XMLSerializer
 import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 import java.util.*
 
 
 val scanner = Scanner(System.`in`)
 val patientAPI = PatientAPI()
-val doctorAPI = DoctorAPI()
+private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
 
 fun main(args: Array<String>) {
     println("Healthcare Management System V1.0")
@@ -54,6 +56,8 @@ fun runDoctorMenu() {
             2 -> listDoctor()
             3 -> updateDoctor()
             4 -> deleteDoctor()
+            88 -> saveDoctor()
+            99 -> loadDoctor()
             0 -> return
             else -> println("Invalid option entered: $option")
         }
@@ -65,12 +69,14 @@ fun doctorMenu(): Int {
          > ----------------------------------|
          > |        DOCTOR MENU              |
          > ----------------------------------|
-         > |   1) Add a doctor              |
-         > |   2) List all doctors          |
-         > |   3) Update a doctor           |
-         > |   4) Delete a doctor           |
-         > |-------------------------------|                
-         > |   0) Back to Main Menu         |
+         > |   1) Add a doctor               |
+         > |   2) List all doctors           |
+         > |   3) Update a doctor            |
+         > |   4) Delete a doctor            |
+         > |  88) -> saveDoctor()            |
+         > |  99) -> loadDoctor()            |
+         > |---------------------------------|                
+         > |   0) Back to Main Menu          |
          > ----------------------------------|
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
@@ -140,7 +146,9 @@ fun deleteDoctor() {
             println("Delete NOT Successful")
         }
     }
+
 }
+
 
 fun runPatientMenu() {
     do {
@@ -224,7 +232,6 @@ fun listPatient() {
     }
 
 
-
 fun deletePatient() {
 
     listPatient()
@@ -239,7 +246,24 @@ fun deletePatient() {
             println("Delete NOT Successful")
         }
     }
+
 }
+fun saveDoctor() {
+    try {
+        doctorAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun loadDoctor() {
+    try {
+        doctorAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
 
 fun exitApp() {
     println("Exiting..")
