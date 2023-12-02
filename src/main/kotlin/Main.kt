@@ -12,7 +12,7 @@ import java.util.*
 
 
 val scanner = Scanner(System.`in`)
-val patientAPI = PatientAPI()
+private val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
 
 fun main(args: Array<String>) {
@@ -158,6 +158,8 @@ fun runPatientMenu() {
             2 -> listPatient()
             3 -> updatePatient()
             4 -> deletePatient()
+            88 -> savePatient()
+            99 -> loadPatient()
             0 -> return
             else -> println("Invalid option entered: $option")
         }
@@ -169,12 +171,14 @@ fun patientMenu(): Int {
          > ----------------------------------|
          > |       PATIENT MENU              |
          > ----------------------------------|
-         > |   1) Add a patient             |
-         > |   2) List all patients         |
-         > |   3) Update a patient          |
-         > |   4) Delete a patient          |
-         > |-------------------------------|                
-         > |   0) Back to Main Menu         |
+         > |   1) Add a patient              |
+         > |   2) List all patients          |
+         > |   3) Update a patient           |
+         > |   4) Delete a patient           |
+         > |   88) -> savePatient()          |
+         > |   99) -> loadPatient()          |
+         > |---------------------------------|                
+         > |   0) Back to Main Menu          |
          > ----------------------------------|
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
@@ -259,6 +263,21 @@ fun saveDoctor() {
 fun loadDoctor() {
     try {
         doctorAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+fun savePatient() {
+    try {
+        patientAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun loadPatient() {
+    try {
+        patientAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
     }
