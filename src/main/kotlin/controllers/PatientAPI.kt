@@ -1,12 +1,15 @@
 package controllers
 
+import models.Doctor
 import models.Patient
+import persistence.Serializer
 import utils.Utilities
 import utils.Utilities.isValidListIndex
 
-class PatientAPI {
+class PatientAPI(serializerType: Serializer) {
 
     private var patients = ArrayList<Patient>()
+    private var serializer: Serializer = serializerType
 
     fun add(patient: Patient): Boolean {
         return patients.add(patient)
@@ -56,5 +59,15 @@ class PatientAPI {
 
     fun isValidIndex(index: Int): Boolean {
         return isValidListIndex(index, patients)
+    }
+
+    @Throws(Exception::class)
+    fun load() {
+        patients = serializer.read() as ArrayList<Patient>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(patients)
     }
 }
