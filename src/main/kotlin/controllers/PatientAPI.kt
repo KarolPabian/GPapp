@@ -1,4 +1,7 @@
 package controllers
 
-class PatientAPI {
+import models.Patient
+
+class patientAPI {
+
 }

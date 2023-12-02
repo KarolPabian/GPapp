@@ -1,5 +1,8 @@
+import controllers.patientAPI
+import models.Patient
 import java.lang.System.exit
 import java.util.*
+
 
 val scanner = Scanner(System.`in`)
 
@@ -113,8 +116,13 @@ fun patientMenu(): Int {
 }
 
 fun addPatient() {
-    println("You chose Add Patient")
+
+
+
+
 }
+
+
 
 fun listPatient() {
     println("You chose List Patient")
