@@ -74,4 +74,37 @@ class PatientAPITest {
             assertTrue(patientsString.contains("john doe"))
         }
     }
+    @Nested
+    inner class UpdatePatients {
+
+        @Test
+        fun `updating a patient that does not exist returns false`() {
+            val patientAPI = PatientAPI()
+
+            assertFalse(
+                patientAPI.updatePatient(
+                    0,
+                    Patient(1, "Updating Patient", "02/02/1995", 'F', "987-654-3210")
+                )
+            )
+        }
+
+        @Test
+        fun `updating a patient that exists returns true and updates`() {
+            val patientAPI = PatientAPI()
+            val patient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
+            patientAPI.add(patient)
+
+            val updated = patientAPI.updatePatient(
+                0,
+                Patient(1, "Updating Patient", "02/02/1995", 'F', "987-654-3210")
+            )
+
+            assertTrue(updated)
+            assertEquals("Updating Patient", patientAPI.findPatient(0)?.name)
+            assertEquals("02/02/1995", patientAPI.findPatient(0)?.dateOfBirth)
+            assertEquals('F', patientAPI.findPatient(0)?.gender)
+            assertEquals("987-654-3210", patientAPI.findPatient(0)?.phoneNumber)
+        }
+    }
 }
