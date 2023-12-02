@@ -94,6 +94,30 @@ class DoctorAPITest {
         assertEquals("Updating Doctor", doctorAPI.findDoctor(0)?.name)
         assertEquals("987-654-3210", doctorAPI.findDoctor(0)?.phoneNumber)
     }
+    @Test
+    fun `deleting a Doctor that does not exist returns null`() {
+
+        val emptyDoctorAPI = DoctorAPI()
+
+
+        assertNull(emptyDoctorAPI.deleteDoctor(0))
+    }
+
+    @Test
+    fun `deleting a doctor that exists delete and returns deleted object`() {
+
+        val doctorAPI = DoctorAPI()
+        val doctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+        doctorAPI.add(doctor)
+
+
+        val deletedDoctor = doctorAPI.deleteDoctor(0)
+
+
+        assertEquals(0, doctorAPI.numberOfDoctors())
+        assertEquals(doctor, deletedDoctor)
+    }
 }
+
 
 
