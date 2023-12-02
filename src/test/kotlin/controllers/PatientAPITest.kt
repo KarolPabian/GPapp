@@ -51,4 +51,27 @@ class PatientAPITest {
             assertEquals(patient2, patientAPI.findPatient(1))
         }
     }
+    @Nested
+    inner class ListPatients {
+
+        @Test
+        fun `listAllPatients returns No Patients Stored message when ArrayList is empty`() {
+            val emptyPatientAPI = PatientAPI()
+
+            assertEquals(0, emptyPatientAPI.numberOfPatients())
+            assertTrue(emptyPatientAPI.listAllPatients().lowercase().contains("no patients"))
+        }
+
+        @Test
+        fun `listAllPatients returns Patients when ArrayList has patients stored`() {
+            val patientAPI = PatientAPI()
+            val newPatient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
+            patientAPI.add(newPatient)
+
+            val patientsString = patientAPI.listAllPatients().lowercase()
+
+            assertEquals(1, patientAPI.numberOfPatients())
+            assertTrue(patientsString.contains("john doe"))
+        }
+    }
 }
