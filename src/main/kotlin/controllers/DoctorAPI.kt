@@ -1,6 +1,7 @@
 package controllers
 
 import models.Doctor
+import utils.Utilities
 import utils.Utilities.isValidListIndex
 
 class DoctorAPI {
@@ -33,5 +34,11 @@ class DoctorAPI {
             doctors.removeAt(indexToDelete)
         } else null
     }
+
+fun findDoctor(index: Int): Doctor? {
+    return if (Utilities.isValidListIndex(index, doctors)) {
+        doctors[index]
+    } else null
+}
 }
 

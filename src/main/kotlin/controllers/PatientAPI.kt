@@ -34,7 +34,13 @@ class PatientAPI {
             patients.removeAt(indexToDelete)
         } else null
     }
+    fun findPatient(index: Int): Patient? {
+        return if (Utilities.isValidListIndex(index, patients)) {
+            patients[index]
+        } else null
+    }
 }
+
 
 
 
