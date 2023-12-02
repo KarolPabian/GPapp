@@ -159,8 +159,9 @@ fun addPatient() {
 
 
 fun listPatient() {
-    println("You chose List Patient")
-}
+        println(patientAPI.listAllPatients())
+    }
+
 
 fun updatePatient() {
     println("You chose Update Patient")
