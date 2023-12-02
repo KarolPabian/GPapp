@@ -1,8 +1,8 @@
 package controllers
 
-import models.Doctor
 import models.Patient
 import utils.Utilities
+import utils.Utilities.isValidListIndex
 
 class PatientAPI {
 
@@ -24,25 +24,37 @@ class PatientAPI {
         }
     }
 
-
     fun numberOfPatients(): Int {
         return patients.size
     }
 
     fun deletePatient(indexToDelete: Int): Patient? {
-        return if (Utilities.isValidListIndex(indexToDelete, patients)) {
+        return if (isValidListIndex(indexToDelete, patients)) {
             patients.removeAt(indexToDelete)
         } else null
     }
+
     fun findPatient(index: Int): Patient? {
         return if (Utilities.isValidListIndex(index, patients)) {
             patients[index]
         } else null
     }
+
+    fun updatePatient(indexToUpdate: Int, updatedPatient: Patient?): Boolean {
+        val foundPatient = findPatient(indexToUpdate)
+
+        if (foundPatient != null && updatedPatient != null) {
+            foundPatient.name = updatedPatient.name
+            foundPatient.dateOfBirth = updatedPatient.dateOfBirth
+            foundPatient.gender = updatedPatient.gender
+            foundPatient.phoneNumber = updatedPatient.phoneNumber
+            return true
+        }
+
+        return false
+    }
+
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, patients)
+    }
 }
-
-
-
-
-
-
