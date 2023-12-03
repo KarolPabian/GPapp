@@ -6,6 +6,7 @@ data class Doctor(
     var specialization: String,
     var phoneNumber: String,
     var patientList: ArrayList<Patient> = ArrayList()
+
 ) {
 
     fun assignPatient(patient: Patient): Boolean {
@@ -26,3 +27,5 @@ data class Doctor(
         """
     }
 }
+
+val specializationChoice = listOf("Cardiology", "Orthopedics", "Pediatrics", "Dermatology", "Neurology", "Kotlinology")

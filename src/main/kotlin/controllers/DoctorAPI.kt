@@ -17,6 +17,7 @@ class DoctorAPI(serializerType: Serializer) {
             true
         } else false
 
+
     fun unassignPatient(doctorIndex: Int, patient: Patient): Boolean =
         if (isValidListIndex(doctorIndex, doctors)) {
             val doctor = doctors[doctorIndex]
