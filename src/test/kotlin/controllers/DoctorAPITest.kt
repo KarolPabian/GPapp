@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import models.Doctor
 import persistence.XMLSerializer
 import java.io.File
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class DoctorAPITest {
@@ -123,6 +124,31 @@ class DoctorAPITest {
 
             assertEquals(0, doctorAPI.numberOfDoctors())
             assertEquals(doctor, deletedDoctor)
+        }
+    }
+
+    @Nested
+    inner class FindDoctor {
+
+        @Test
+        fun `finding a doctor by index returns the correct doctor`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            doctorAPI.add(newDoctor)
+
+            val foundDoctor = doctorAPI.findDoctor(0)
+
+            assertNotNull(foundDoctor)
+            assertEquals(newDoctor, foundDoctor)
+        }
+
+        @Test
+        fun `finding a doctor by invalid index returns null`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+
+            val foundDoctor = doctorAPI.findDoctor(0)
+
+            assertNull(foundDoctor)
         }
     }
     @Nested
