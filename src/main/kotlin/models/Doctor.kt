@@ -8,7 +8,6 @@ data class Doctor(
     var patientList: ArrayList<Patient> = ArrayList()
 ) {
 
-    // Additional field to store the list of assigned patients
     val assignedPatients: MutableList<Patient> = mutableListOf()
 
     override fun toString(): String {
