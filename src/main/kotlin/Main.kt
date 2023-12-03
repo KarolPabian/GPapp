@@ -2,7 +2,6 @@ import controllers.DoctorAPI
 import controllers.PatientAPI
 import models.Doctor
 import models.Patient
-import models.specializationChoice
 import persistence.XMLSerializer
 import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
@@ -88,35 +87,16 @@ fun doctorMenu(): Int {
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
+
 fun addDoctor() {
     println("You chose Add Doctor")
 
     val doctorID = readNextInt("Enter the doctor's ID: ")
     val doctorName = readNextLine("Enter the doctor's name: ")
-
-    var selectedSpecialization: String
-
-    // Keep asking for specialization until a valid option is chosen
-    do {
-        println("Choose a specialization:")
-        specializationChoice.forEachIndexed { index, specialization ->
-            println("${index + 1}: $specialization")
-        }
-
-        val specializationIndex = readNextInt("Enter the index of the specialization: ")
-
-        if (Utilities.isValidListIndex(specializationIndex - 1, specializationChoice)) {
-            selectedSpecialization = specializationChoice[specializationIndex - 1]
-            break  // Break the loop if a valid specialization is chosen
-        } else {
-            println("Invalid specialization index. Please choose a valid option.")
-        }
-
-    } while (true)
-
+    val specialization = readNextLine("Enter the doctor's specialization: ")
     val phoneNumber = readNextLine("Enter the doctor's phone number: ")
 
-    val newDoctor = Doctor(doctorID, doctorName, selectedSpecialization, phoneNumber)
+    val newDoctor = Doctor(doctorID, doctorName, specialization, phoneNumber)
 
     val isAdded = doctorAPI.add(newDoctor)
 
@@ -126,8 +106,6 @@ fun addDoctor() {
         println("Failed to Add Doctor")
     }
 }
-
-
 
 fun listDoctor() {
     println(doctorAPI.listAllDoctors())
