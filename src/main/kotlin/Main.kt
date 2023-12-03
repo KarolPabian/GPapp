@@ -10,6 +10,7 @@ import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
 
+
 val scanner = Scanner(System.`in`)
 private val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
