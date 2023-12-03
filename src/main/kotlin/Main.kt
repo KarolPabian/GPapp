@@ -256,16 +256,25 @@ fun deletePatient() {
 
 @Throws(Exception::class)
 fun loadAll() {
-    patientAPI.load()
-    doctorAPI.load()
+    try {
+        patientAPI.load()
+        doctorAPI.load()
+        println("Data loaded successfully.")
+    } catch (e: Exception) {
+        System.err.println("Error loading data from file: $e")
+    }
 }
 
 @Throws(Exception::class)
 fun saveAll() {
-    patientAPI.store()
-    doctorAPI.store()
+    try {
+        patientAPI.store()
+        doctorAPI.store()
+        println("Data saved successfully.")
+    } catch (e: Exception) {
+        System.err.println("Error saving data to file: $e")
+    }
 }
-
 
 fun exitApp() {
     println("Exiting..")
