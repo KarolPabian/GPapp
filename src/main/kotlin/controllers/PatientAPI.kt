@@ -8,17 +8,11 @@ class PatientAPI(serializerType: Serializer) {
     private var patients = ArrayList<Patient>()
     private var serializer: Serializer = serializerType
 
-    fun add(patient: Patient): Boolean {
-        return patients.add(patient)
-    }
+    fun add(patient: Patient): Boolean = patients.add(patient)
 
-    fun listAllPatients(): String {
-        return if (patients.isEmpty()) {
-            "No patients stored"
-        } else {
-            patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
-        }
-    }
+    fun listAllPatients(): String =
+        if (patients.isEmpty()) "No patients stored"
+        else patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
 
     fun numberOfPatients(): Int = patients.size
 

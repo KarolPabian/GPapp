@@ -28,13 +28,10 @@ class DoctorAPI(serializerType: Serializer) {
 
     fun add(doctor: Doctor): Boolean = doctors.add(doctor)
 
-    fun listAllDoctors(): String {
-        return if (doctors.isEmpty()) {
-            "No doctors stored"
-        } else {
-            doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
-        }
-    }
+
+    fun listAllDoctors(): String =
+        if (doctors.isEmpty()) "No doctors stored"
+        else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
 
 
 
