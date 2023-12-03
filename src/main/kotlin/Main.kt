@@ -253,47 +253,17 @@ fun deletePatient() {
     }
 
 }
-fun saveDoctor() {
-    try {
-        doctorAPI.store()
-    } catch (e: Exception) {
-        System.err.println("Error writing to file: $e")
-    }
-}
-
-fun loadDoctor() {
-    try {
-        doctorAPI.load()
-    } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
-    }
-}
-fun savePatient() {
-    try {
-        patientAPI.store()
-    } catch (e: Exception) {
-        System.err.println("Error writing to file: $e")
-    }
-}
-
-fun loadPatient() {
-    try {
-        patientAPI.load()
-    } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
-    }
-}
 
 @Throws(Exception::class)
 fun loadAll() {
-    loadPatient()
-    loadDoctor()
+    patientAPI.load()
+    doctorAPI.load()
 }
 
 @Throws(Exception::class)
 fun saveAll() {
-    savePatient()
-    saveDoctor()
+    patientAPI.store()
+    doctorAPI.store()
 }
 
 
