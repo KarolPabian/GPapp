@@ -20,6 +20,19 @@ class DoctorAPI(serializerType: Serializer) {
         }
     }
 
+    fun unassignPatient(doctorIndex: Int, patient: Patient): Boolean {
+        return if (isValidListIndex(doctorIndex, doctors)) {
+            val doctor = doctors[doctorIndex]
+            val unassigned = doctor.unassignPatient(patient)
+            if (unassigned) {
+                patient.assignedDoctor = null
+            }
+            unassigned
+        } else {
+            false
+        }
+    }
+
 
     fun add(doctor: Doctor): Boolean {
         return doctors.add(doctor)
