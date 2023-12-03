@@ -239,8 +239,13 @@ fun assignPatientToDoctor() {
     println("Doctors:")
     listDoctor()
 
-    // Get user input for doctor and patient indices
+    // Get user input for doctor index
     val doctorIndex = readNextInt("Enter the index of the doctor: ")
+
+    // Display patients
+    listPatient()
+
+    // Get user input for patient index
     val patientIndex = readNextInt("Enter the index of the patient: ")
 
     // Retrieve the patient and doctor
@@ -259,6 +264,7 @@ fun assignPatientToDoctor() {
         println("Invalid indices or patient/doctor not found.")
     }
 }
+
 
 
 @Throws(Exception::class)
