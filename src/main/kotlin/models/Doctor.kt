@@ -1,5 +1,6 @@
 package models
 
+val specializationChoice = listOf("Cardiology", "Orthopedics", "Pediatrics", "Dermatology", "Neurology", "Kotlinology")
 data class Doctor(
     val doctorID: Int,
     var name: String,
@@ -26,6 +27,6 @@ data class Doctor(
             Patient List:     📋 ${patientList.joinToString { it.name }}
         """
     }
+
 }
 
-val specializationChoice = listOf("Cardiology", "Orthopedics", "Pediatrics", "Dermatology", "Neurology", "Kotlinology")

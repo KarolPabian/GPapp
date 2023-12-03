@@ -35,6 +35,10 @@ class DoctorAPI(serializerType: Serializer) {
         else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
 
 
+    fun listDoctorsBySpecialization(specialization: String): List<Doctor> {
+        return doctors.filter { it.specialization.equals(specialization, ignoreCase = true) }
+
+    }
 
     fun numberOfDoctors(): Int = doctors.size
 
@@ -61,6 +65,8 @@ class DoctorAPI(serializerType: Serializer) {
     }
 
     fun isValidIndex(index: Int): Boolean = isValidListIndex(index, doctors)
+
+
 
 
     @Throws(Exception::class)
