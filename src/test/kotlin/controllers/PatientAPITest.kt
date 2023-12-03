@@ -13,7 +13,6 @@ import kotlin.test.assertNull
 class PatientAPITest {
 
 
-
     private lateinit var patientAPI: PatientAPI
 
     @BeforeEach
@@ -21,6 +20,7 @@ class PatientAPITest {
         val xmlSerializer = XMLSerializer(File("patients.xml"))
         patientAPI = PatientAPI(xmlSerializer)
     }
+
     @Nested
     inner class AddPatients {
 
@@ -60,6 +60,7 @@ class PatientAPITest {
             assertEquals(patient2, patientAPI.findPatient(1))
         }
     }
+
     @Nested
     inner class ListPatients {
 
@@ -83,6 +84,7 @@ class PatientAPITest {
             assertTrue(patientsString.contains("john doe"))
         }
     }
+
     @Nested
     inner class UpdatePatients {
 
@@ -97,6 +99,60 @@ class PatientAPITest {
                 )
             )
         }
+
+        @Nested
+        inner class AssignPatients {
+
+            @Test
+            fun `assigning a patient to a doctor returns true`() {
+                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+                val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+                doctorAPI.add(newDoctor)
+                patientAPI.add(newPatient)
+
+                // Assign the patient to the doctor
+                val assigned = doctorAPI.assignPatient(0, newPatient)
+
+                assertTrue(assigned)
+                assertEquals(newDoctor, newPatient.assignedDoctor)
+            }
+
+            @Test
+            fun `assigning a patient to a non-existing doctor returns false`() {
+                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+                patientAPI.add(newPatient)
+
+                // Attempt to assign the patient to a non-existing doctor
+                val assigned = doctorAPI.assignPatient(0, newPatient)
+
+                assertFalse(assigned)
+            }
+
+            @Test
+            fun `assigning a patient to a doctor with invalid index returns false`() {
+                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+                val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+                doctorAPI.add(newDoctor)
+                patientAPI.add(newPatient)
+
+                // Attempt to assign the patient to a doctor with an invalid index
+                val assigned = doctorAPI.assignPatient(1, newPatient)
+
+                assertFalse(assigned)
+            }
+        }
+
 
         @Test
         fun `updating a patient that exists returns true and updates`() {
@@ -116,6 +172,7 @@ class PatientAPITest {
             assertEquals("987-654-3210", patientAPI.findPatient(0)?.phoneNumber)
         }
     }
+
     @Nested
     inner class DeletePatients {
 
@@ -140,10 +197,10 @@ class PatientAPITest {
     }
 
     @Nested
-    inner class UnassignPatients {
+    inner class AssignPatients {
 
         @Test
-        fun `unassigning a patient from a doctor returns true`() {
+        fun `assigning a patient to a doctor returns true`() {
             val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
             val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 
@@ -154,32 +211,45 @@ class PatientAPITest {
             patientAPI.add(newPatient)
 
             // Assign the patient to the doctor
-            doctorAPI.assignPatient(0, newPatient)
+            val assigned = doctorAPI.assignPatient(0, newPatient)
 
-            // Check if the patient is initially assigned
+            assertTrue(assigned)
             assertEquals(newDoctor, newPatient.assignedDoctor)
-
-            // Unassign the patient from the doctor
-            val unassigned = doctorAPI.unassignPatient(0, newPatient)
-
-            assertTrue(unassigned)
-            assertNull(newPatient.assignedDoctor)
         }
 
         @Test
-        fun `unassigning a patient from a non-existing doctor returns false`() {
+        fun `assigning a patient to a non-existing doctor returns false`() {
             val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
             val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 
             val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
             patientAPI.add(newPatient)
 
-            // Attempt to unassign the patient from a non-existing doctor
-            val unassigned = doctorAPI.unassignPatient(0, newPatient)
+            // Attempt to assign the patient to a non-existing doctor
+            val assigned = doctorAPI.assignPatient(0, newPatient)
 
-            assertFalse(unassigned)
+            assertFalse(assigned)
+        }
+
+        @Test
+        fun `assigning a patient to a doctor with invalid index returns false`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+            doctorAPI.add(newDoctor)
+            patientAPI.add(newPatient)
+
+            // Attempt to assign the patient to a doctor with an invalid index
+            val assigned = doctorAPI.assignPatient(1, newPatient)
+
+            assertFalse(assigned)
         }
     }
+
+
     @Nested
     inner class PersistenceTests {
 
