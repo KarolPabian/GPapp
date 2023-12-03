@@ -43,6 +43,7 @@ fun runMenu() {
         when (val option = mainMenu()) {
             1 -> runDoctorMenu()
             2 -> runPatientMenu()
+            5 -> assignPatientToDoctor()
             88 -> loadAll()
             99 -> saveAll()
             0 -> exitApp()
@@ -228,10 +229,37 @@ fun deletePatient() {
         } else {
             println("Delete NOT Successful")
         }
-
     }
-
 }
+
+fun assignPatientToDoctor() {
+    println("Assign Patient to Doctor")
+
+    // Display doctors
+    println("Doctors:")
+    listDoctor()
+
+    // Get user input for doctor and patient indices
+    val doctorIndex = readNextInt("Enter the index of the doctor: ")
+    val patientIndex = readNextInt("Enter the index of the patient: ")
+
+    // Retrieve the patient and doctor
+    val patient = patientAPI.findPatient(patientIndex)
+    val doctor = doctorAPI.findDoctor(doctorIndex)
+
+    // Check if both patient and doctor are not null before assigning
+    if (patient != null && doctor != null) {
+        // Assign the patient to the doctor
+        if (doctorAPI.assignPatient(doctorIndex, patient)) {
+            println("Patient assigned to the doctor successfully.")
+        } else {
+            println("Failed to assign patient to the doctor.")
+        }
+    } else {
+        println("Invalid indices or patient/doctor not found.")
+    }
+}
+
 
 @Throws(Exception::class)
 fun loadAll() {

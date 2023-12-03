@@ -31,13 +31,12 @@ class DoctorAPI(serializerType: Serializer) {
         } else {
             var listOfDoctors = ""
             for (i in doctors.indices) {
-                listOfDoctors += "${i + 1}: ${doctors[i]} \n"
+                listOfDoctors += "${i + 1}: ${doctors[i]}\n"
             }
             listOfDoctors
-
         }
-
     }
+
 
     fun numberOfDoctors(): Int {
         return doctors.size

@@ -18,7 +18,7 @@ data class Doctor(
             Name:             👨‍ $name
             Specialization:   🌐 $specialization
             Phone Number:     ☎ $phoneNumber
-             Patient List:     📋 $patientList
+            Patient List:     📋 ${patientList.joinToString { it.name }}
         """
     }
 }
