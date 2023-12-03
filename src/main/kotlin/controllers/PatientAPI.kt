@@ -23,11 +23,10 @@ class PatientAPI(serializerType: Serializer) {
     fun numberOfPatients(): Int = patients.size
 
 
-    fun deletePatient(indexToDelete: Int): Patient? {
-        return if (isValidListIndex(indexToDelete, patients)) {
-            patients.removeAt(indexToDelete)
-        } else null
-    }
+    fun deletePatient(indexToDelete: Int): Patient? =
+        if (isValidListIndex(indexToDelete, patients)) patients.removeAt(indexToDelete)
+        else null
+
 
     fun findPatient(index: Int): Patient? =
         if (isValidListIndex(index, patients)) patients[index] else null
