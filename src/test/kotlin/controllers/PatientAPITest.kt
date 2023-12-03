@@ -139,6 +139,18 @@ class PatientAPITest {
         }
     }
 
+    @Test
+    fun `listPatientsByGender returns correct result`() {
+        patientAPI.add(dummyPatient1)
+        patientAPI.add(dummyPatient2)
+
+        val result = patientAPI.listPatientsByGender()
+
+        assertTrue(result.contains("Male Patients"))
+        assertTrue(result.contains("Female Patients"))
+    }
+
+
 
     @Nested
     inner class UpdatePatients {
