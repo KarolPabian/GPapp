@@ -17,7 +17,7 @@ private val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
 
 fun main(args: Array<String>) {
-    println("Healthcare Management System V2.0")
+    println("Healthcare Management System V3.0")
     runMenu()
 }
 
