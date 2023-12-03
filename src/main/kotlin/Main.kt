@@ -125,7 +125,9 @@ fun updateDoctor() {
         val indexToUpdate = readNextInt("Enter the index of the Doctor to update: ")
         if (doctorAPI.isValidIndex(indexToUpdate)) {
             val updatedName = readNextLine("Enter the updated name: ")
-            val updatedSpecialization = readNextLine("Enter the updated specialization: ")
+
+            val updatedSpecialization = DoctorInputUtils.readValidSpecialization()
+
             val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
 
             if (doctorAPI.updateDoctor(
@@ -142,6 +144,8 @@ fun updateDoctor() {
         }
     }
 }
+
+
 
 fun deleteDoctor() {
     listDoctor()
