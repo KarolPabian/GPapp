@@ -3,6 +3,7 @@ import controllers.PatientAPI
 import models.Doctor
 import models.Patient
 import persistence.XMLSerializer
+import utils.ScannerInput
 import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -188,6 +189,7 @@ fun runPatientMenu() {
             5 -> deletePatient()
             6 -> assignPatientToDoctor()
             7 ->unassignPatientFromDoctor()
+            8 ->listPatientsByGenderMenu()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -207,6 +209,7 @@ fun patientMenu(): Int {
          > |   5) Delete a patient           |
          > |   6) Assign a Patient           |
          > |   7) Unassign a Patient         |
+         > |   8) List Patients by Gender    |
          > |  99)    Save All                |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
@@ -219,7 +222,7 @@ fun addPatient() {
     val patientID = readNextInt("Enter the patient's ID: ")
     val patientName = readNextLine("Enter the patient's name: ")
     val dateOfBirth = readNextLine("Enter the patient's date of birth: ")
-    val gender = readNextChar("Enter the patient's gender (M/F): ")
+    val gender = utils.PatientInputUtils.readNextCharGender("Enter the patient's gender (M/F): ")
     val phoneNumber = readNextLine("Enter the patient's phone number: ")
 
     val isAdded = patientAPI.add(Patient(patientID, patientName, dateOfBirth, gender, phoneNumber))
@@ -247,6 +250,10 @@ fun listPatientWaitingList() {
     }
 }
 
+fun listPatientsByGenderMenu() {
+    println(patientAPI.listPatientsByGender())
+}
+
 
 fun updatePatient() {
     listPatient()
@@ -255,7 +262,7 @@ fun updatePatient() {
         if (patientAPI.isValidIndex(indexToUpdate)) {
             val updatedName = readNextLine("Enter the updated name: ")
             val updatedDateOfBirth = readNextLine("Enter the updated date of birth: ")
-            val updatedGender = readNextChar("Enter the updated gender (M/F): ")
+            val updatedGender = utils.PatientInputUtils.readNextCharGender("Enter the updated gender (M/F): ")
             val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
 
             if (patientAPI.updatePatient(
