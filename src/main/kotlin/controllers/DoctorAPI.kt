@@ -1,14 +1,25 @@
 package controllers
-
 import models.Doctor
+import models.Patient
 import persistence.Serializer
-import utils.Utilities
 import utils.Utilities.isValidListIndex
 
 class DoctorAPI(serializerType: Serializer) {
 
     private var doctors = ArrayList<Doctor>()
     private var serializer: Serializer = serializerType
+
+    fun assignPatient(doctorIndex: Int, patient: Patient): Boolean {
+        return if (isValidListIndex(doctorIndex, doctors)) {
+            val doctor = doctors[doctorIndex]
+            doctor.assignPatient(patient)
+            patient.assignedDoctor = doctor
+            true
+        } else {
+            false
+        }
+    }
+
 
     fun add(doctor: Doctor): Boolean {
         return doctors.add(doctor)
@@ -39,7 +50,7 @@ class DoctorAPI(serializerType: Serializer) {
     }
 
     fun findDoctor(index: Int): Doctor? {
-        return if (Utilities.isValidListIndex(index, doctors)) {
+        return if (isValidListIndex(index, doctors)) {
             doctors[index]
         } else null
     }
