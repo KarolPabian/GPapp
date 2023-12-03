@@ -16,11 +16,7 @@ class PatientAPI(serializerType: Serializer) {
         return if (patients.isEmpty()) {
             "No patients stored"
         } else {
-            var listOfPatients = ""
-            for (i in patients.indices) {
-                listOfPatients += "${i + 1}: ${patients[i]} \n"
-            }
-            listOfPatients
+            patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
         }
     }
 
