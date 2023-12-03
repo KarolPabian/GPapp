@@ -14,18 +14,5 @@ object Utilities {
     fun validRange(numberToCheck: Int, min: Int, max: Int): Boolean {
         return numberToCheck in min..max
     }
-
-    @JvmStatic
-    fun findPatientById(patientId: Int, patients: List<Patient>): Patient? {
-        return patients.find { it.patientID == patientId }
-    }
-
-    @JvmStatic
-    fun getDoctor(doctorIndex: Int, doctors: List<Doctor>): Doctor? {
-        return if (isValidListIndex(doctorIndex, doctors)) {
-            doctors[doctorIndex]
-        } else {
-            null
-        }
-    }
 }
+
