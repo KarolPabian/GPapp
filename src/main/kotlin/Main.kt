@@ -27,8 +27,11 @@ fun mainMenu(): Int {
          > ---------------------------------------------|
          > |               Choose Your Menu             |
          > |                                            |
-         > |   1) Manage Doctors                        |
-         > |   2) Manage Patients                       |
+         > |              1) Manage Doctors             |
+         > |              2) Manage Patients            | 
+         > |                                            |
+         > |               88) Load All                 | 
+         > |               99) Save All                 |
          > |--------------------------------------------|                
          > |   0) Exit                                  |
          > ---------------------------------------------|
@@ -42,6 +45,8 @@ fun runMenu() {
         when (option) {
             1 -> runDoctorMenu()
             2 -> runPatientMenu()
+            88 -> loadAll()
+            99 -> saveAll()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -56,8 +61,7 @@ fun runDoctorMenu() {
             2 -> listDoctor()
             3 -> updateDoctor()
             4 -> deleteDoctor()
-            88 -> saveDoctor()
-            99 -> loadDoctor()
+            99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
         }
@@ -73,8 +77,7 @@ fun doctorMenu(): Int {
          > |   2) List all doctors           |
          > |   3) Update a doctor            |
          > |   4) Delete a doctor            |
-         > |  88) -> saveDoctor()            |
-         > |  99) -> loadDoctor()            |
+         > |  99)     Save All               |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
          > ----------------------------------|
@@ -158,8 +161,7 @@ fun runPatientMenu() {
             2 -> listPatient()
             3 -> updatePatient()
             4 -> deletePatient()
-            88 -> savePatient()
-            99 -> loadPatient()
+            99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
         }
@@ -175,8 +177,7 @@ fun patientMenu(): Int {
          > |   2) List all patients          |
          > |   3) Update a patient           |
          > |   4) Delete a patient           |
-         > |   88) -> savePatient()          |
-         > |   99) -> loadPatient()          |
+         > |  99)    Save All
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
          > ----------------------------------|
@@ -281,6 +282,18 @@ fun loadPatient() {
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
     }
+}
+
+@Throws(Exception::class)
+fun loadAll() {
+    loadPatient()
+    loadDoctor()
+}
+
+@Throws(Exception::class)
+fun saveAll() {
+    savePatient()
+    saveDoctor()
 }
 
 
