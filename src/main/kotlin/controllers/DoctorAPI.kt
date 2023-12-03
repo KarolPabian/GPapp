@@ -50,11 +50,9 @@ class DoctorAPI(serializerType: Serializer) {
 
     fun numberOfDoctors(): Int = doctors.size
 
-    fun deleteDoctor(indexToDelete: Int): Doctor? {
-        return if (isValidListIndex(indexToDelete, doctors)) {
-            doctors.removeAt(indexToDelete)
-        } else null
-    }
+    fun deleteDoctor(indexToDelete: Int): Doctor? =
+        if (isValidListIndex(indexToDelete, doctors)) doctors.removeAt(indexToDelete)
+        else null
 
     fun findDoctor(index: Int): Doctor? =
         if (isValidListIndex(index, doctors)) doctors[index] else null
