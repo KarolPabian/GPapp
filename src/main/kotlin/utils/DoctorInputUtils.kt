@@ -2,8 +2,16 @@ import models.specializationChoice
 import utils.ScannerInput
 import utils.Utilities
 
+/**
+ * The `DoctorInputUtils` object provides utility functions for handling doctor-related inputs.
+ */
 object DoctorInputUtils {
 
+    /**
+     * Reads and validates a user's choice for doctor specialization.
+     *
+     * @return The selected specialization.
+     */
     fun readValidSpecialization(): String {
         do {
             println("Choose a specialization:")

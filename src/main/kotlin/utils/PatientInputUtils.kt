@@ -2,8 +2,17 @@ package utils
 
 import java.util.*
 
+/**
+ * The `PatientInputUtils` object provides utility functions for handling patient-related inputs.
+ */
 object PatientInputUtils {
 
+    /**
+     * Reads and validates a character input for gender.
+     *
+     * @param prompt The prompt to display to the user.
+     * @return The validated gender character ('M' for Male, 'F' for Female).
+     */
     @JvmStatic
     fun readNextCharGender(prompt: String?): Char {
         do {

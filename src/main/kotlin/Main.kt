@@ -14,10 +14,20 @@ val scanner = Scanner(System.`in`)
 private val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
 
+/**
+ * Main function for the Healthcare Management System V4.0.
+ */
+
 fun main(args: Array<String>) {
     println("Healthcare Management System V4.0")
     runMenu()
 }
+
+/**
+ * Displays the main menu options and returns the selected option.
+ *
+ * @return The selected option.
+ */
 
 fun mainMenu(): Int {
     print("""
@@ -38,6 +48,10 @@ fun mainMenu(): Int {
     return scanner.nextInt()
 }
 
+
+/**
+ * Executes the main menu and loops until the user chooses to exit the application.
+ */
 fun runMenu() {
     do {
         when (val option = mainMenu()) {
@@ -50,7 +64,9 @@ fun runMenu() {
         }
     } while (true)
 }
-
+/**
+ * Executes the doctor-related menu options and loops until the user chooses to go back to the main menu.
+ */
 fun runDoctorMenu() {
     do {
         when (val option = doctorMenu()) {
@@ -68,7 +84,11 @@ fun runDoctorMenu() {
         }
     } while (true)
 }
-
+/**
+ * Displays the doctor menu options and returns the selected option.
+ *
+ * @return The selected option.
+ */
 fun doctorMenu(): Int {
     print("""
         ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
@@ -92,7 +112,9 @@ fun doctorMenu(): Int {
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
-
+/**
+ * Adds a new doctor to the system.
+ */
 fun addDoctor() {
     println("You chose Add Doctor")
 
@@ -113,15 +135,23 @@ fun addDoctor() {
         println("Failed to Add Doctor")
     }
 }
-
+/**
+ * Lists all doctors in the system.
+ */
 fun listDoctor() {
     println(doctorAPI.listAllDoctors())
 }
+
+/**
+ * Lists doctors by a specific specialization chosen by the user.
+ */
 fun listDoctorsBySpecializationMenu() {
     val specialization = DoctorInputUtils.readValidSpecialization()
     println(doctorAPI.listDoctorsBySpecialization(specialization))
 }
-
+/**
+ * Lists available doctors (doctors with no assigned patients).
+ */
 fun listAvailableDoctorsMenu() {
     println("Available Doctors:")
     val availableDoctors = doctorAPI.listAvailableDoctors()
@@ -136,7 +166,9 @@ fun listAvailableDoctorsMenu() {
 
 
 
-
+/**
+ * Updates information for an existing doctor in the system.
+ */
 
 fun updateDoctor() {
     listDoctor()
@@ -165,7 +197,9 @@ fun updateDoctor() {
 }
 
 
-
+/**
+ * Deletes an existing doctor from the system.
+ */
 fun deleteDoctor() {
     listDoctor()
     if (doctorAPI.numberOfDoctors() > 0) {
@@ -178,7 +212,9 @@ fun deleteDoctor() {
         }
     }
 }
-
+/**
+ * Executes the patient-related menu options and loops until the user chooses to go back to the main menu.
+ */
 fun runPatientMenu() {
     do {
         when (val option = patientMenu()) {
@@ -196,7 +232,11 @@ fun runPatientMenu() {
         }
     } while (true)
 }
-
+/**
+* Displays the patient menu options and returns the selected option.
+*
+* @return The selected option.
+*/
 fun patientMenu(): Int {
     print("""
         ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
@@ -221,7 +261,9 @@ fun patientMenu(): Int {
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
-
+/**
+ * Adds a new patient to the system.
+ */
 fun addPatient() {
     val patientID = readNextInt("Enter the patient's ID: ")
     val patientName = readNextLine("Enter the patient's name: ")
@@ -237,11 +279,15 @@ fun addPatient() {
         println("Failed to Add Patient")
     }
 }
-
+/**
+ * Lists all patients in the system.
+ */
 fun listPatient() {
     println(patientAPI.listAllPatients())
 }
-
+/**
+ * Lists patients on the waiting list (patients with no assigned doctors).
+ */
 fun listPatientWaitingList() {
     println("Patient Waiting List:")
     val availablePatients = patientAPI.listPatientsOnWaitingList()
@@ -253,12 +299,16 @@ fun listPatientWaitingList() {
         println("No Patients On Waiting List.")
     }
 }
-
+/**
+ * Lists patients by gender and calculates gender diversity percentages.
+ */
 fun listPatientsByGenderMenu() {
     println(patientAPI.listPatientsByGender())
 }
 
-
+/**
+ * Updates information for an existing patient in the system.
+ */
 fun updatePatient() {
     listPatient()
     if (patientAPI.numberOfPatients() > 0) {
@@ -283,7 +333,9 @@ fun updatePatient() {
         }
     }
 }
-
+/**
+ * Deletes an existing patient from the system.
+ */
 fun deletePatient() {
     listPatient()
     if (patientAPI.numberOfPatients() > 0) {
@@ -296,7 +348,9 @@ fun deletePatient() {
         }
     }
 }
-
+/**
+ * Assigns a patient to a doctor.
+ */
 fun assignPatientToDoctor() {
     println("Assign Patient to Doctor")
 
@@ -324,7 +378,9 @@ fun assignPatientToDoctor() {
         println("Invalid indices or patient/doctor not found.")
     }
 }
-
+/**
+ * Unassigns a patient from a doctor.
+ */
 fun unassignPatientFromDoctor() {
     println("Unassign Patient from Doctor")
 
@@ -355,7 +411,9 @@ fun unassignPatientFromDoctor() {
 }
 
 
-
+/**
+ * Loads patient and doctor data from external storage.
+ */
 @Throws(Exception::class)
 fun loadAll() {
     try {
@@ -366,7 +424,9 @@ fun loadAll() {
         System.err.println("Error loading data from file: $e")
     }
 }
-
+/**
+ * Saves patient and doctor data to external storage.
+ */
 @Throws(Exception::class)
 fun saveAll() {
     try {
@@ -377,7 +437,9 @@ fun saveAll() {
         System.err.println("Error saving data to file: $e")
     }
 }
-
+/**
+ * Exits the application.
+ */
 fun exitApp() {
     println("Exiting..")
     exitProcess(0)
