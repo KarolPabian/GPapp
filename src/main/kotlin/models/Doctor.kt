@@ -12,6 +12,10 @@ data class Doctor(
         return patientList.add(patient)
     }
 
+    fun unassignPatient(patient: Patient): Boolean {
+        return patientList.remove(patient)
+    }
+
     override fun toString(): String {
         return """
             Doctor ID:        🩺 $doctorID
