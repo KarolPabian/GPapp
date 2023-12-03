@@ -1,10 +1,12 @@
 import controllers.DoctorAPI
+import controllers.PatientAPI
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import models.Doctor
+import models.Patient
 import persistence.XMLSerializer
 import java.io.File
 import kotlin.test.assertNotNull
@@ -151,6 +153,56 @@ class DoctorAPITest {
             assertNull(foundDoctor)
         }
     }
+
+    @Nested
+    inner class AssignPatientToDoctor {
+
+        @Test
+        fun `assigning a patient to a doctor returns true`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+            doctorAPI.add(newDoctor)
+            patientAPI.add(newPatient)
+
+            val assigned = doctorAPI.assignPatient(0, newPatient)
+
+            assertTrue(assigned)
+        }
+
+        @Test
+        fun `assigning a patient to a non-existing doctor returns false`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+            patientAPI.add(newPatient)
+
+            val assigned = doctorAPI.assignPatient(0, newPatient)
+
+            assertFalse(assigned)
+        }
+
+        @Test
+        fun `assigning a patient to a doctor with invalid index returns false`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+            doctorAPI.add(newDoctor)
+            patientAPI.add(newPatient)
+
+            val assigned = doctorAPI.assignPatient(1, newPatient)
+
+            assertFalse(assigned)
+        }
+    }
+
     @Nested
     inner class PersistenceTests {
 
