@@ -18,6 +18,38 @@ class PatientAPI(serializerType: Serializer) {
         return patients.filter { it.assignedDoctor == null }
     }
 
+    fun listPatientsByGender(): String {
+
+        val allPatients = patients
+
+        if (allPatients.isNotEmpty()) {
+            val malePatients = allPatients.filter { it.gender.equals('M', ignoreCase = true) }
+            val femalePatients = allPatients.filter { it.gender.equals('F', ignoreCase = true) }
+
+            val malePatientsString = malePatients.joinToString("\n") { "${malePatients.indexOf(it)}: $it" }
+            val femalePatientsString = femalePatients.joinToString("\n") { "${femalePatients.indexOf(it)}: $it" }
+
+            val totalPatients = allPatients.size
+            val malePercentage = (malePatients.size.toFloat() / totalPatients) * 100
+            val femalePercentage = (femalePatients.size.toFloat() / totalPatients) * 100
+
+            return """
+            Male Patients:
+            $malePatientsString
+
+            Female Patients:
+            $femalePatientsString
+
+            Gender Diversity:
+            Male Patients: $malePercentage%
+            Female Patients: $femalePercentage%
+        """.trimIndent()
+        } else {
+            return "No patients available."
+        }
+    }
+
+
     fun numberOfPatients(): Int = patients.size
 
 
