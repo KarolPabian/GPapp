@@ -79,6 +79,68 @@ class PatientAPITest {
     }
 
     @Nested
+    inner class ListPatientsOnWaitingList {
+
+        @Test
+        fun `listPatientsOnWaitingList returns empty list when all patients are assigned`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val dummyDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            doctorAPI.add(dummyDoctor)
+
+            val assignedPatient1 = dummyPatient1
+            val assignedPatient2 = dummyPatient2
+            patientAPI.add(assignedPatient1)
+            patientAPI.add(assignedPatient2)
+            doctorAPI.assignPatient(0, assignedPatient1)
+            doctorAPI.assignPatient(0, assignedPatient2)
+
+            val waitingList = patientAPI.listPatientsOnWaitingList()
+
+            assertTrue(waitingList.isEmpty())
+        }
+
+        @Test
+        fun `listPatientsOnWaitingList returns all patients when none are assigned`() {
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val unassignedPatient1 = dummyPatient1
+            val unassignedPatient2 = dummyPatient2
+            patientAPI.add(unassignedPatient1)
+            patientAPI.add(unassignedPatient2)
+
+            val waitingList = patientAPI.listPatientsOnWaitingList()
+            assertEquals(2, waitingList.size)
+            assertTrue(waitingList.contains(unassignedPatient1))
+            assertTrue(waitingList.contains(unassignedPatient2))
+        }
+
+        @Test
+        fun `listPatientsOnWaitingList returns patients with no assigned doctor`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val dummyDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            doctorAPI.add(dummyDoctor)
+
+            val assignedPatient = dummyPatient1
+            patientAPI.add(assignedPatient)
+            doctorAPI.assignPatient(0, assignedPatient)
+
+            val unassignedPatient = dummyPatient2
+            patientAPI.add(unassignedPatient)
+
+            val waitingList = patientAPI.listPatientsOnWaitingList()
+
+            assertEquals(1, waitingList.size)
+            assertTrue(waitingList.contains(unassignedPatient))
+            assertFalse(waitingList.contains(assignedPatient))
+        }
+    }
+
+
+    @Nested
     inner class UpdatePatients {
 
         @Test
@@ -109,6 +171,7 @@ class PatientAPITest {
             assertEquals("987-654-3210", patientAPI.findPatient(0)?.phoneNumber)
         }
     }
+
 
     @Nested
     inner class DeletePatients {

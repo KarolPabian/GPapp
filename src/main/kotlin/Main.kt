@@ -77,10 +77,11 @@ fun doctorMenu(): Int {
          > ----------------------------------|
          > |   1) Add a doctor               |
          > |   2) List all doctors           |
-         > |   3) Update a doctor            |
-         > |   4) Delete a doctor            |
-         > |   5) Assign a Patient           |
-         > |   6) Unassign a Patient         |
+         > |   3) List Specialized Doctors   |
+         > |   4) Update a Patient           |
+         > |   5) Delete a doctor            |
+         > |   6) Assign a Patient           |
+         > |   7) Unassign a Patient         |
          > |  99)     Save All               |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
@@ -165,10 +166,11 @@ fun runPatientMenu() {
         when (val option = patientMenu()) {
             1 -> addPatient()
             2 -> listPatient()
-            3 -> updatePatient()
-            4 -> deletePatient()
-            5 -> assignPatientToDoctor()
-            6 ->unassignPatientFromDoctor()
+            3 -> listPatientsOnWaitingList()
+            4 -> updatePatient()
+            5 -> deletePatient()
+            6 -> assignPatientToDoctor()
+            7 ->unassignPatientFromDoctor()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -183,10 +185,11 @@ fun patientMenu(): Int {
          > ----------------------------------|
          > |   1) Add a patient              |
          > |   2) List all patients          |
-         > |   3) Update a patient           |
-         > |   4) Delete a patient           |
-         > |   5) Assign a Patient           |
-         > |   6) Unassign a Patient         |
+         > |   3) Patient Waiting List       |
+         > |   4) Update a patient           |
+         > |   5) Delete a patient           |
+         > |   6) Assign a Patient           |
+         > |   7) Unassign a Patient         |
          > |  99)    Save All                |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
@@ -213,6 +216,11 @@ fun addPatient() {
 
 fun listPatient() {
     println(patientAPI.listAllPatients())
+}
+
+fun listPatientsOnWaitingList() {
+    println("Here is the list of unassigned Patients")
+    println(patientAPI.listPatientsOnWaitingList())
 }
 
 fun updatePatient() {
@@ -256,26 +264,21 @@ fun deletePatient() {
 fun assignPatientToDoctor() {
     println("Assign Patient to Doctor")
 
-    // Display doctors
     println("Doctors:")
+
     listDoctor()
 
-    // Get user input for doctor index
     val doctorIndex = readNextInt("Enter the index of the doctor: ")
 
-    // Display patients
     listPatient()
 
-    // Get user input for patient index
     val patientIndex = readNextInt("Enter the index of the patient: ")
 
-    // Retrieve the patient and doctor
     val patient = patientAPI.findPatient(patientIndex)
     val doctor = doctorAPI.findDoctor(doctorIndex)
 
-    // Check if both patient and doctor are not null before assigning
     if (patient != null && doctor != null) {
-        // Assign the patient to the doctor
+
         if (doctorAPI.assignPatient(doctorIndex, patient)) {
             println("Patient assigned to the doctor successfully.")
         } else {
@@ -289,14 +292,11 @@ fun assignPatientToDoctor() {
 fun unassignPatientFromDoctor() {
     println("Unassign Patient from Doctor")
 
-    // Display doctors
     println("Doctors:")
     listDoctor()
 
-    // Get user input for doctor index
     val doctorIndex = readNextInt("Enter the index of the doctor: ")
 
-    // Display patients assigned to the doctor
     val doctor = doctorAPI.findDoctor(doctorIndex)
     if (doctor != null && doctor.patientList.isNotEmpty()) {
         println("Patients assigned to ${doctor.name}:")
@@ -304,13 +304,10 @@ fun unassignPatientFromDoctor() {
             println("${index + 1}: ${patient.name}")
         }
 
-        // Get user input for patient index to unassign
         val patientIndex = readNextInt("Enter the index of the patient to unassign: ")
 
-        // Retrieve the patient
         val patient = doctor.patientList.getOrNull(patientIndex - 1)
 
-        // Unassign the patient from the doctor
         if (patient != null && doctorAPI.unassignPatient(doctorIndex, patient)) {
             println("Patient unassigned from the doctor successfully.")
         } else {
