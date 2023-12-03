@@ -93,10 +93,12 @@ fun addDoctor() {
 
     val doctorID = readNextInt("Enter the doctor's ID: ")
     val doctorName = readNextLine("Enter the doctor's name: ")
-    val specialization = readNextLine("Enter the doctor's specialization: ")
+
+    val selectedSpecialization = DoctorInputUtils.readValidSpecialization()
+
     val phoneNumber = readNextLine("Enter the doctor's phone number: ")
 
-    val newDoctor = Doctor(doctorID, doctorName, specialization, phoneNumber)
+    val newDoctor = Doctor(doctorID, doctorName, selectedSpecialization, phoneNumber)
 
     val isAdded = doctorAPI.add(newDoctor)
 
