@@ -42,13 +42,10 @@ class DoctorAPI(serializerType: Serializer) {
         return if (doctors.isEmpty()) {
             "No doctors stored"
         } else {
-            var listOfDoctors = ""
-            for (i in doctors.indices) {
-                listOfDoctors += "${i + 1}: ${doctors[i]}\n"
-            }
-            listOfDoctors
+            doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
         }
     }
+
 
 
     fun numberOfDoctors(): Int {
