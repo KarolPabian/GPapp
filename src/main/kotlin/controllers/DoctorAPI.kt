@@ -37,10 +37,17 @@ class DoctorAPI(serializerType: Serializer) {
         else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
 
 
-    fun listDoctorsBySpecialization(specialization: String): List<Doctor> {
-        return doctors.filter { it.specialization.equals(specialization, ignoreCase = true) }
 
+    fun listDoctorsBySpecialization(specialization: String): String {
+        val filteredDoctors = doctors.filter { it.specialization == specialization }
+
+        return if (filteredDoctors.isEmpty()) {
+            "No doctors found for the specialization: $specialization"
+        } else {
+            filteredDoctors.joinToString("\n") { "${it.doctorID}: ${it.name}" }
+        }
     }
+
 
     fun numberOfDoctors(): Int = doctors.size
 
