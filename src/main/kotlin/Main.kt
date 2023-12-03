@@ -219,6 +219,7 @@ fun listPatient() {
 }
 
 fun listPatientsOnWaitingList() {
+    println("Here is the list of unassigned Patients")
     println(patientAPI.listPatientsOnWaitingList())
 }
 
@@ -263,26 +264,21 @@ fun deletePatient() {
 fun assignPatientToDoctor() {
     println("Assign Patient to Doctor")
 
-    // Display doctors
     println("Doctors:")
+
     listDoctor()
 
-    // Get user input for doctor index
     val doctorIndex = readNextInt("Enter the index of the doctor: ")
 
-    // Display patients
     listPatient()
 
-    // Get user input for patient index
     val patientIndex = readNextInt("Enter the index of the patient: ")
 
-    // Retrieve the patient and doctor
     val patient = patientAPI.findPatient(patientIndex)
     val doctor = doctorAPI.findDoctor(doctorIndex)
 
-    // Check if both patient and doctor are not null before assigning
     if (patient != null && doctor != null) {
-        // Assign the patient to the doctor
+
         if (doctorAPI.assignPatient(doctorIndex, patient)) {
             println("Patient assigned to the doctor successfully.")
         } else {
@@ -296,14 +292,11 @@ fun assignPatientToDoctor() {
 fun unassignPatientFromDoctor() {
     println("Unassign Patient from Doctor")
 
-    // Display doctors
     println("Doctors:")
     listDoctor()
 
-    // Get user input for doctor index
     val doctorIndex = readNextInt("Enter the index of the doctor: ")
 
-    // Display patients assigned to the doctor
     val doctor = doctorAPI.findDoctor(doctorIndex)
     if (doctor != null && doctor.patientList.isNotEmpty()) {
         println("Patients assigned to ${doctor.name}:")
@@ -311,13 +304,10 @@ fun unassignPatientFromDoctor() {
             println("${index + 1}: ${patient.name}")
         }
 
-        // Get user input for patient index to unassign
         val patientIndex = readNextInt("Enter the index of the patient to unassign: ")
 
-        // Retrieve the patient
         val patient = doctor.patientList.getOrNull(patientIndex - 1)
 
-        // Unassign the patient from the doctor
         if (patient != null && doctorAPI.unassignPatient(doctorIndex, patient)) {
             println("Patient unassigned from the doctor successfully.")
         } else {
