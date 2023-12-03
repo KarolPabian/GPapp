@@ -47,9 +47,9 @@ Main Menu
 - Exit App: Terminate the application.
 
 ### Examples
-![Example1 ](screenshots/screenshot1.jpg)
-![Example2 ](screenshots/screenshot2.jpg)
-![Example3 ](screenshots/screenshot3.jpg)
+![Example1 ](screenshots/Screenshotone.jpg)
+![Example2 ](screenshots/Screenshottwo.jpg)
+![Example3 ](screenshots/Screenshotthree.jpg)
 ### Author
 - Karol Pabian
 
