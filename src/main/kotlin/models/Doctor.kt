@@ -8,13 +8,16 @@ data class Doctor(
     var patientList: ArrayList<Patient> = ArrayList()
 ) {
 
+    // Additional field to store the list of assigned patients
+    val assignedPatients: MutableList<Patient> = mutableListOf()
+
     override fun toString(): String {
         return """
             Doctor ID:        🩺 $doctorID
             Name:             👨‍ $name
             Specialization:   🌐 $specialization
             Phone Number:     ☎ $phoneNumber
-            Patient List:     📋 $patientList
+            Assigned Patients: ${assignedPatients.joinToString { it.name }}
         """
     }
 }
