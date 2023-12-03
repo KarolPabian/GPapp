@@ -1,8 +1,5 @@
 package utils
 
-import models.Doctor
-import models.Patient
-
 object Utilities {
 
     @JvmStatic
