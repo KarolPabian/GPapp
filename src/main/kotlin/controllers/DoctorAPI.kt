@@ -56,11 +56,8 @@ class DoctorAPI(serializerType: Serializer) {
         } else null
     }
 
-    fun findDoctor(index: Int): Doctor? {
-        return if (isValidListIndex(index, doctors)) {
-            doctors[index]
-        } else null
-    }
+    fun findDoctor(index: Int): Doctor? =
+        if (isValidListIndex(index, doctors)) doctors[index] else null
 
     fun updateDoctor(indexToUpdate: Int, updatedDoctor: Doctor?): Boolean {
 
