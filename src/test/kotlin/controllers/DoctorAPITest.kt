@@ -75,6 +75,35 @@ class DoctorAPITest {
     }
 
     @Nested
+    inner class ListDoctorsBySpecialization {
+
+        @Test
+        fun `listDoctorsBySpecialization returns empty list when no doctors match specialization`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+
+            val result: String = doctorAPI.listDoctorsBySpecialization("Nonexistent Specialization")
+
+            assertTrue(result.contains("No doctors found for the specialization"))
+            assertTrue(result.contains("Nonexistent Specialization"))
+        }
+
+        @Test
+        fun `listDoctorsBySpecialization returns list of doctors with matching specialization`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val doctor1 = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            val doctor2 = Doctor(2, "Dr. Johnson", "Pediatrics", "987-654-3210")
+            doctorAPI.add(doctor1)
+            doctorAPI.add(doctor2)
+
+            val result: String = doctorAPI.listDoctorsBySpecialization("General Medicine")
+
+            assertTrue(result.contains("Dr. Smith"))
+            assertFalse(result.contains("Dr. Johnson"))
+        }
+    }
+
+
+    @Nested
     inner class UpdateDoctors {
 
         @Test
