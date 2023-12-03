@@ -1,4 +1,5 @@
 package controllers
+import models.Doctor
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -138,6 +139,47 @@ class PatientAPITest {
         }
     }
 
+    @Nested
+    inner class UnassignPatients {
+
+        @Test
+        fun `unassigning a patient from a doctor returns true`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+
+            doctorAPI.add(newDoctor)
+            patientAPI.add(newPatient)
+
+            // Assign the patient to the doctor
+            doctorAPI.assignPatient(0, newPatient)
+
+            // Check if the patient is initially assigned
+            assertEquals(newDoctor, newPatient.assignedDoctor)
+
+            // Unassign the patient from the doctor
+            val unassigned = doctorAPI.unassignPatient(0, newPatient)
+
+            assertTrue(unassigned)
+            assertNull(newPatient.assignedDoctor)
+        }
+
+        @Test
+        fun `unassigning a patient from a non-existing doctor returns false`() {
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+
+            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+            patientAPI.add(newPatient)
+
+            // Attempt to unassign the patient from a non-existing doctor
+            val unassigned = doctorAPI.unassignPatient(0, newPatient)
+
+            assertFalse(unassigned)
+        }
+    }
     @Nested
     inner class PersistenceTests {
 
