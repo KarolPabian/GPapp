@@ -20,4 +20,12 @@ object Utilities {
         return patients.find { it.patientID == patientId }
     }
 
+    @JvmStatic
+    fun getDoctor(doctorIndex: Int, doctors: List<Doctor>): Doctor? {
+        return if (isValidListIndex(doctorIndex, doctors)) {
+            doctors[doctorIndex]
+        } else {
+            null
+        }
+    }
 }
