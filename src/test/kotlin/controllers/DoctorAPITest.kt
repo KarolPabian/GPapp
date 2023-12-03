@@ -131,6 +131,7 @@ class DoctorAPITest {
 
             assertTrue(updated)
             assertEquals("Updating Doctor", doctorAPI.findDoctor(0)?.name)
+            assertEquals("In-Progress", doctorAPI.findDoctor(0)?.specialization)
             assertEquals("987-654-3210", doctorAPI.findDoctor(0)?.phoneNumber)
         }
     }
