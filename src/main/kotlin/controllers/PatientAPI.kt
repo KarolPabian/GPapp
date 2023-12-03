@@ -1,9 +1,6 @@
 package controllers
-
-import models.Doctor
 import models.Patient
 import persistence.Serializer
-import utils.Utilities
 import utils.Utilities.isValidListIndex
 
 class PatientAPI(serializerType: Serializer) {
@@ -38,7 +35,7 @@ class PatientAPI(serializerType: Serializer) {
     }
 
     fun findPatient(index: Int): Patient? {
-        return if (Utilities.isValidListIndex(index, patients)) {
+        return if (isValidListIndex(index, patients)) {
             patients[index]
         } else null
     }
