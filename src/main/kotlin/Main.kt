@@ -207,6 +207,7 @@ fun patientMenu(): Int {
          > |   5) Delete a patient           |
          > |   6) Assign a Patient           |
          > |   7) Unassign a Patient         |
+         > |   8) List Patients by Gender    |
          > |  99)    Save All                |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
@@ -245,6 +246,10 @@ fun listPatientWaitingList() {
     } else {
         println("No Patients On Waiting List.")
     }
+}
+
+fun listPatientsByGenderMenu() {
+    println(patientAPI.listPatientsByGender())
 }
 
 
