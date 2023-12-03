@@ -44,9 +44,11 @@ class DoctorAPI(serializerType: Serializer) {
         return if (filteredDoctors.isEmpty()) {
             "No doctors found for the specialization: $specialization"
         } else {
-            filteredDoctors.joinToString("\n") { "${it.doctorID}: ${it.name}" }
+            "Here are the doctors that specialize in: $specialization\n" +
+                    filteredDoctors.joinToString("\n") { "${it.doctorID}: $it" }
         }
     }
+
 
 
     fun numberOfDoctors(): Int = doctors.size

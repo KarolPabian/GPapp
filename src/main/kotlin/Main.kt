@@ -58,10 +58,11 @@ fun runDoctorMenu() {
         when (val option = doctorMenu()) {
             1 -> addDoctor()
             2 -> listDoctor()
-            3 -> updateDoctor()
-            4 -> deleteDoctor()
-            5 -> assignPatientToDoctor()
-            6 ->unassignPatientFromDoctor()
+            3 -> listDoctorsBySpecializationMenu()
+            4 -> updateDoctor()
+            5 -> deleteDoctor()
+            6 -> assignPatientToDoctor()
+            7 ->unassignPatientFromDoctor()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -112,6 +113,11 @@ fun addDoctor() {
 fun listDoctor() {
     println(doctorAPI.listAllDoctors())
 }
+fun listDoctorsBySpecializationMenu() {
+    val specialization = DoctorInputUtils.readValidSpecialization()
+    println(doctorAPI.listDoctorsBySpecialization(specialization))
+}
+
 
 fun updateDoctor() {
     listDoctor()
