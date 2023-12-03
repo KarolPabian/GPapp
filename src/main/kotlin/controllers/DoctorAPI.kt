@@ -42,6 +42,7 @@ class DoctorAPI(serializerType: Serializer) {
 
 
 
+
     fun listDoctorsBySpecialization(specialization: String): String {
         val filteredDoctors = doctors.filter { it.specialization == specialization }
 
