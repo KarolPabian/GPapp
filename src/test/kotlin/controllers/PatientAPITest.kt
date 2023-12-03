@@ -137,6 +137,7 @@ class PatientAPITest {
             assertEquals(patient, deletedPatient)
         }
     }
+
     @Nested
     inner class PersistenceTests {
 

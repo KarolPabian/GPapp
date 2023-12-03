@@ -8,13 +8,17 @@ data class Doctor(
     var patientList: ArrayList<Patient> = ArrayList()
 ) {
 
+    fun assignPatient(patient: Patient): Boolean {
+        return patientList.add(patient)
+    }
+
     override fun toString(): String {
         return """
             Doctor ID:        🩺 $doctorID
             Name:             👨‍ $name
             Specialization:   🌐 $specialization
             Phone Number:     ☎ $phoneNumber
-            Patient List:     📋 $patientList
+            Patient List:     📋 ${patientList.joinToString { it.name }}
         """
     }
 }
