@@ -46,9 +46,7 @@ class PatientAPI(serializerType: Serializer) {
         return false
     }
 
-    fun isValidIndex(index: Int): Boolean {
-        return isValidListIndex(index, patients)
-    }
+    fun isValidIndex(index: Int): Boolean = isValidListIndex(index, patients)
 
     @Throws(Exception::class)
     fun load() {
