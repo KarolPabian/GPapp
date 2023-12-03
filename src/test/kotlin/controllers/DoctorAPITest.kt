@@ -129,8 +129,6 @@ class DoctorAPITest {
         }
     }
 
-
-
     @Nested
     inner class AssignPatientToDoctor {
 

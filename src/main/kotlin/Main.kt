@@ -29,6 +29,7 @@ fun mainMenu(): Int {
          > |              1) Manage Doctors             |
          > |              2) Manage Patients            | 
          > |                                            |
+         > |                                            |
          > |               88) Load All                 | 
          > |               99) Save All                 |
          > |--------------------------------------------|                
@@ -43,7 +44,6 @@ fun runMenu() {
         when (val option = mainMenu()) {
             1 -> runDoctorMenu()
             2 -> runPatientMenu()
-            5 -> assignPatientToDoctor()
             88 -> loadAll()
             99 -> saveAll()
             0 -> exitApp()
@@ -59,6 +59,7 @@ fun runDoctorMenu() {
             2 -> listDoctor()
             3 -> updateDoctor()
             4 -> deleteDoctor()
+            5 -> assignPatientToDoctor()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -75,6 +76,7 @@ fun doctorMenu(): Int {
          > |   2) List all doctors           |
          > |   3) Update a doctor            |
          > |   4) Delete a doctor            |
+         > |   5) Assign a Patient           |
          > |  99)     Save All               |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
