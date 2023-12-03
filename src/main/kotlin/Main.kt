@@ -3,8 +3,6 @@ import controllers.PatientAPI
 import models.Doctor
 import models.Patient
 import persistence.XMLSerializer
-import utils.ScannerInput
-import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
@@ -17,26 +15,25 @@ private val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
 private val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
 
 fun main(args: Array<String>) {
-    println("Healthcare Management System V2.0")
+    println("Healthcare Management System V4.0")
     runMenu()
 }
 
 fun mainMenu(): Int {
     print("""
-         > ---------------------------------------------|
-         > |        Healthcare Management System        |
-         > ---------------------------------------------|
-         > |               Choose Your Menu             |
-         > |                                            |
-         > |              1) Manage Doctors             |
-         > |              2) Manage Patients            | 
-         > |                                            |
-         > |                                            |
-         > |               88) Load All                 | 
-         > |               99) Save All                 |
-         > |--------------------------------------------|                
-         > |   0) Exit                                  |
-         > ---------------------------------------------|
+        ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+        █         HEALTHCARE MANAGEMENT      █
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █              MAIN MENU             █   
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █                                    █ 
+        █           1) DOCTOR MENU           █            
+        █           2) PATIENT MENU          █    
+        █                                    █     
+        █          88) LOAD DATA             █    
+        █          99) SAVE DATA             █    
+        █           0) EXIT APP              █ 
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
@@ -74,21 +71,24 @@ fun runDoctorMenu() {
 
 fun doctorMenu(): Int {
     print("""
-         > ----------------------------------|
-         > |        DOCTOR MENU              |
-         > ----------------------------------|
-         > |   1) Add a doctor               |
-         > |   2) List all doctors           |
-         > |   3) List Specialized Doctors   |
-         > |   4) Update a Patient           |
-         > |   5) Delete a doctor            |
-         > |   6) Assign a Patient           |
-         > |   7) Unassign a Patient         |
-         > |   8) List Available Doctors     |
-         > |  99)     Save All               |
-         > |---------------------------------|                
-         > |   0) Back to Main Menu          |
-         > ----------------------------------|
+        ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+        █         HEALTHCARE MANAGEMENT      █
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █             DOCTOR MENU            █   
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █                                    █ 
+        █        1) ADD A DOCTOR             █  
+        █        2) LIST ALL DOCTORS         █ 
+        █        3) DOCTORS BY SPECIALITY    █ 
+        █        4) UPDATE A DOCTOR          █ 
+        █        5) DELETE A DOCTOR          █ 
+        █        6) ASSIGN A PATIENT         █ 
+        █        7) UNASSIGN A PATIENT       █ 
+        █        8) LIST AVAILABLE DOCTORS   █ 
+        █                                    █ 
+        █        99) SAVE DATA               █ 
+        █        0) BACK TO MAIN MENU        █ 
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
@@ -199,21 +199,25 @@ fun runPatientMenu() {
 
 fun patientMenu(): Int {
     print("""
-         > ----------------------------------|
-         > |       PATIENT MENU              |
-         > ----------------------------------|
-         > |   1) Add a patient              |
-         > |   2) List all patients          |
-         > |   3) Patient Waiting List       |
-         > |   4) Update a patient           |
-         > |   5) Delete a patient           |
-         > |   6) Assign a Patient           |
-         > |   7) Unassign a Patient         |
-         > |   8) List Patients by Gender    |
-         > |  99)    Save All                |
-         > |---------------------------------|                
-         > |   0) Back to Main Menu          |
-         > ----------------------------------|
+        ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂
+        █        HEALTHCARE MANAGEMENT       █
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █             PATIENT MENU           █   
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
+        █                                    █ 
+        █        1) ADD A PATIENT            █  
+        █        2) LIST ALL PATIENTS        █ 
+        █        3) PATIENT WAITING LIST     █ 
+        █        4) UPDATE A PATIENT         █ 
+        █        5) DELETE A PATIENT         █ 
+        █        6) ASSIGN A PATIENT         █ 
+        █        7) UNASSIGN A PATIENT       █ 
+        █        8) LIST PATIENTS BY         █
+        █               GENDER               █ 
+        █                                    █ 
+        █        99) SAVE DATA               █ 
+        █        0) BACK TO MAIN MENU        █ 
+        █▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂█  
          > ==>> """.trimMargin(">"))
     return scanner.nextInt()
 }
