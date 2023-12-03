@@ -14,6 +14,10 @@ class PatientAPI(serializerType: Serializer) {
         if (patients.isEmpty()) "No patients stored"
         else patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
 
+    fun listPatientsOnWaitingList(): List<Patient> {
+        return patients.filter { it.assignedDoctor == null }
+    }
+
     fun numberOfPatients(): Int = patients.size
 
 
