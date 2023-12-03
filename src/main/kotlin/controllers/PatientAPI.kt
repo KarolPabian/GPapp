@@ -8,37 +8,22 @@ class PatientAPI(serializerType: Serializer) {
     private var patients = ArrayList<Patient>()
     private var serializer: Serializer = serializerType
 
-    fun add(patient: Patient): Boolean {
-        return patients.add(patient)
-    }
+    fun add(patient: Patient): Boolean = patients.add(patient)
 
-    fun listAllPatients(): String {
-        return if (patients.isEmpty()) {
-            "No patients stored"
-        } else {
-            var listOfPatients = ""
-            for (i in patients.indices) {
-                listOfPatients += "${i + 1}: ${patients[i]} \n"
-            }
-            listOfPatients
-        }
-    }
+    fun listAllPatients(): String =
+        if (patients.isEmpty()) "No patients stored"
+        else patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
 
-    fun numberOfPatients(): Int {
-        return patients.size
-    }
+    fun numberOfPatients(): Int = patients.size
 
-    fun deletePatient(indexToDelete: Int): Patient? {
-        return if (isValidListIndex(indexToDelete, patients)) {
-            patients.removeAt(indexToDelete)
-        } else null
-    }
 
-    fun findPatient(index: Int): Patient? {
-        return if (isValidListIndex(index, patients)) {
-            patients[index]
-        } else null
-    }
+    fun deletePatient(indexToDelete: Int): Patient? =
+        if (isValidListIndex(indexToDelete, patients)) patients.removeAt(indexToDelete)
+        else null
+
+
+    fun findPatient(index: Int): Patient? =
+        if (isValidListIndex(index, patients)) patients[index] else null
 
     fun updatePatient(indexToUpdate: Int, updatedPatient: Patient?): Boolean {
         val foundPatient = findPatient(indexToUpdate)
@@ -54,9 +39,7 @@ class PatientAPI(serializerType: Serializer) {
         return false
     }
 
-    fun isValidIndex(index: Int): Boolean {
-        return isValidListIndex(index, patients)
-    }
+    fun isValidIndex(index: Int): Boolean = isValidListIndex(index, patients)
 
     @Throws(Exception::class)
     fun load() {

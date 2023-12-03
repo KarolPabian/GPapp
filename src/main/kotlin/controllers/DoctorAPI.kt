@@ -9,60 +9,40 @@ class DoctorAPI(serializerType: Serializer) {
     private var doctors = ArrayList<Doctor>()
     private var serializer: Serializer = serializerType
 
-    fun assignPatient(doctorIndex: Int, patient: Patient): Boolean {
-        return if (isValidListIndex(doctorIndex, doctors)) {
+    fun assignPatient(doctorIndex: Int, patient: Patient): Boolean =
+        if (isValidListIndex(doctorIndex, doctors)) {
             val doctor = doctors[doctorIndex]
             doctor.assignPatient(patient)
             patient.assignedDoctor = doctor
             true
-        } else {
-            false
-        }
-    }
+        } else false
 
-    fun unassignPatient(doctorIndex: Int, patient: Patient): Boolean {
-        return if (isValidListIndex(doctorIndex, doctors)) {
+    fun unassignPatient(doctorIndex: Int, patient: Patient): Boolean =
+        if (isValidListIndex(doctorIndex, doctors)) {
             val doctor = doctors[doctorIndex]
             val unassigned = doctor.unassignPatient(patient)
-            if (unassigned) {
-                patient.assignedDoctor = null
-            }
+            if (unassigned) patient.assignedDoctor = null
             unassigned
-        } else {
-            false
-        }
-    }
+        } else false
 
 
-    fun add(doctor: Doctor): Boolean {
-        return doctors.add(doctor)
-    }
+    fun add(doctor: Doctor): Boolean = doctors.add(doctor)
 
-    fun listAllDoctors(): String {
-        return if (doctors.isEmpty()) {
-            "No doctors stored"
-        } else {
-            doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
-        }
-    }
+
+    fun listAllDoctors(): String =
+        if (doctors.isEmpty()) "No doctors stored"
+        else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
 
 
 
-    fun numberOfDoctors(): Int {
-        return doctors.size
-    }
+    fun numberOfDoctors(): Int = doctors.size
 
-    fun deleteDoctor(indexToDelete: Int): Doctor? {
-        return if (isValidListIndex(indexToDelete, doctors)) {
-            doctors.removeAt(indexToDelete)
-        } else null
-    }
+    fun deleteDoctor(indexToDelete: Int): Doctor? =
+        if (isValidListIndex(indexToDelete, doctors)) doctors.removeAt(indexToDelete)
+        else null
 
-    fun findDoctor(index: Int): Doctor? {
-        return if (isValidListIndex(index, doctors)) {
-            doctors[index]
-        } else null
-    }
+    fun findDoctor(index: Int): Doctor? =
+        if (isValidListIndex(index, doctors)) doctors[index] else null
 
     fun updateDoctor(indexToUpdate: Int, updatedDoctor: Doctor?): Boolean {
 
@@ -79,9 +59,7 @@ class DoctorAPI(serializerType: Serializer) {
         return false
     }
 
-    fun isValidIndex(index: Int): Boolean {
-        return isValidListIndex(index, doctors)
-    }
+    fun isValidIndex(index: Int): Boolean = isValidListIndex(index, doctors)
 
 
     @Throws(Exception::class)
