@@ -11,9 +11,9 @@ data class Doctor(
     override fun toString(): String {
         return """
             Doctor ID:        🩺 $doctorID
-            Name:             👨‍⚕️ $name
+            Name:             👨‍ $name
             Specialization:   🌐 $specialization
-            Phone Number:     ☎️ $phoneNumber
+            Phone Number:     ☎ $phoneNumber
             Patient List:     📋 $patientList
         """
     }

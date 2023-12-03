@@ -13,8 +13,8 @@ data class Patient(
             Patient ID:       👤 $patientID
             Name:             👨 $name
             Date of Birth:    📅 $dateOfBirth
-            Gender:           ⚥ $gender
-            Phone Number:     ☎️ $phoneNumber
+            Gender:           ⚥  $gender
+            Phone Number:     ☎ $phoneNumber
         """
     }
 }
