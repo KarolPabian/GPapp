@@ -12,7 +12,7 @@ class PatientAPI(serializerType: Serializer) {
 
     fun listAllPatients(): String =
         if (patients.isEmpty()) "No patients stored"
-        else patients.joinToString("\n") { "${patients.indexOf(it) + 1}: $it" }
+        else patients.joinToString("\n") { "${patients.indexOf(it)}: $it" }
 
     fun listPatientsOnWaitingList(): List<Patient> {
         return patients.filter { it.assignedDoctor == null }

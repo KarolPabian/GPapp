@@ -34,7 +34,12 @@ class DoctorAPI(serializerType: Serializer) {
 
     fun listAllDoctors(): String =
         if (doctors.isEmpty()) "No doctors stored"
-        else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
+        else doctors.joinToString("\n") { "${doctors.indexOf(it)}: $it" }
+
+    fun listAvailableDoctors(): List<Doctor> {
+        return doctors.filter { it.patientList.isEmpty() }
+    }
+
 
 
 

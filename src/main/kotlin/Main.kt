@@ -62,7 +62,8 @@ fun runDoctorMenu() {
             4 -> updateDoctor()
             5 -> deleteDoctor()
             6 -> assignPatientToDoctor()
-            7 ->unassignPatientFromDoctor()
+            7 -> unassignPatientFromDoctor()
+            8 -> listAvailableDoctorsMenu()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -82,6 +83,7 @@ fun doctorMenu(): Int {
          > |   5) Delete a doctor            |
          > |   6) Assign a Patient           |
          > |   7) Unassign a Patient         |
+         > |   8) List Available Doctors     |
          > |  99)     Save All               |
          > |---------------------------------|                
          > |   0) Back to Main Menu          |
@@ -118,6 +120,21 @@ fun listDoctorsBySpecializationMenu() {
     val specialization = DoctorInputUtils.readValidSpecialization()
     println(doctorAPI.listDoctorsBySpecialization(specialization))
 }
+
+fun listAvailableDoctorsMenu() {
+    println("Available Doctors:")
+    val availableDoctors = doctorAPI.listAvailableDoctors()
+    if (availableDoctors.isNotEmpty()) {
+        availableDoctors.forEachIndexed { index, doctor ->
+            println("${index + 1}: ${doctor.name} ID: ${doctor.doctorID} - ${doctor.specialization}")
+        }
+    } else {
+        println("No available doctors.")
+    }
+}
+
+
+
 
 
 fun updateDoctor() {
@@ -166,7 +183,7 @@ fun runPatientMenu() {
         when (val option = patientMenu()) {
             1 -> addPatient()
             2 -> listPatient()
-            3 -> listPatientsOnWaitingList()
+            3 -> listPatientWaitingList()
             4 -> updatePatient()
             5 -> deletePatient()
             6 -> assignPatientToDoctor()
@@ -218,10 +235,18 @@ fun listPatient() {
     println(patientAPI.listAllPatients())
 }
 
-fun listPatientsOnWaitingList() {
-    println("Here is the list of unassigned Patients")
-    println(patientAPI.listPatientsOnWaitingList())
+fun listPatientWaitingList() {
+    println("Patient Waiting List:")
+    val availablePatients = patientAPI.listPatientsOnWaitingList()
+    if (availablePatients.isNotEmpty()) {
+        availablePatients.forEachIndexed { index, patient ->
+            println("${index + 1}: ${patient.name} ID: ${patient.patientID}")
+        }
+    } else {
+        println("No Patients On Waiting List.")
+    }
 }
+
 
 fun updatePatient() {
     listPatient()
