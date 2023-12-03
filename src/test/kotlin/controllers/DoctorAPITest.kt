@@ -96,6 +96,39 @@ class DoctorAPITest {
     }
 
     @Nested
+    inner class ListAvailableDoctors {
+
+        @Test
+        fun `listAvailableDoctors returns empty list when all doctors have patients`() {
+
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            doctorAPI.add(dummyDoctor1)
+
+            val patient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
+            doctorAPI.assignPatient(0, patient)
+
+            val availableDoctors = doctorAPI.listAvailableDoctors()
+
+            assertTrue(availableDoctors.isEmpty())
+        }
+
+        @Test
+        fun `listAvailableDoctors returns all doctors when none have patients`() {
+
+            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
+            doctorAPI.add(dummyDoctor1)
+            doctorAPI.add(dummyDoctor2)
+
+            val availableDoctors = doctorAPI.listAvailableDoctors()
+
+            assertEquals(2, availableDoctors.size)
+            assertTrue(availableDoctors.contains(dummyDoctor1))
+            assertTrue(availableDoctors.contains(dummyDoctor2))
+        }
+    }
+
+
+    @Nested
     inner class UpdateDoctors {
 
         @Test
