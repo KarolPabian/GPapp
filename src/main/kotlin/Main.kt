@@ -228,7 +228,9 @@ fun deletePatient() {
         } else {
             println("Delete NOT Successful")
         }
+
     }
+
 }
 
 @Throws(Exception::class)
