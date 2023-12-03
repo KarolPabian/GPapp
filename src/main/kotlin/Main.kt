@@ -58,10 +58,11 @@ fun runDoctorMenu() {
         when (val option = doctorMenu()) {
             1 -> addDoctor()
             2 -> listDoctor()
-            3 -> updateDoctor()
-            4 -> deleteDoctor()
-            5 -> assignPatientToDoctor()
-            6 ->unassignPatientFromDoctor()
+            3 -> listDoctorsBySpecializationMenu()
+            4 -> updateDoctor()
+            5 -> deleteDoctor()
+            6 -> assignPatientToDoctor()
+            7 ->unassignPatientFromDoctor()
             99 -> saveAll()
             0 -> return
             else -> println("Invalid option entered: $option")
@@ -93,10 +94,12 @@ fun addDoctor() {
 
     val doctorID = readNextInt("Enter the doctor's ID: ")
     val doctorName = readNextLine("Enter the doctor's name: ")
-    val specialization = readNextLine("Enter the doctor's specialization: ")
+
+    val selectedSpecialization = DoctorInputUtils.readValidSpecialization()
+
     val phoneNumber = readNextLine("Enter the doctor's phone number: ")
 
-    val newDoctor = Doctor(doctorID, doctorName, specialization, phoneNumber)
+    val newDoctor = Doctor(doctorID, doctorName, selectedSpecialization, phoneNumber)
 
     val isAdded = doctorAPI.add(newDoctor)
 
@@ -110,6 +113,11 @@ fun addDoctor() {
 fun listDoctor() {
     println(doctorAPI.listAllDoctors())
 }
+fun listDoctorsBySpecializationMenu() {
+    val specialization = DoctorInputUtils.readValidSpecialization()
+    println(doctorAPI.listDoctorsBySpecialization(specialization))
+}
+
 
 fun updateDoctor() {
     listDoctor()
@@ -117,7 +125,9 @@ fun updateDoctor() {
         val indexToUpdate = readNextInt("Enter the index of the Doctor to update: ")
         if (doctorAPI.isValidIndex(indexToUpdate)) {
             val updatedName = readNextLine("Enter the updated name: ")
-            val updatedSpecialization = readNextLine("Enter the updated specialization: ")
+
+            val updatedSpecialization = DoctorInputUtils.readValidSpecialization()
+
             val updatedPhoneNumber = readNextLine("Enter the updated phone number: ")
 
             if (doctorAPI.updateDoctor(
@@ -134,6 +144,8 @@ fun updateDoctor() {
         }
     }
 }
+
+
 
 fun deleteDoctor() {
     listDoctor()

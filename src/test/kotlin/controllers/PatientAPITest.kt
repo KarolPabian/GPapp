@@ -1,19 +1,24 @@
 package controllers
+
 import models.Doctor
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import models.Patient
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import java.io.File
 import kotlin.test.assertNull
 
 class PatientAPITest {
 
-
     private lateinit var patientAPI: PatientAPI
+
+    // Common dummy data
+    private val dummyPatient1 = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
+    private val dummyPatient2 = Patient(2, "Jane Doe", "02/02/1995", 'F', "987-654-3210")
 
     @BeforeEach
     fun setup() {
@@ -26,38 +31,28 @@ class PatientAPITest {
 
         @Test
         fun `adding a patient to a populated list adds to ArrayList`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val newPatient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-
-            assertTrue(patientAPI.add(newPatient))
+            assertTrue(patientAPI.add(dummyPatient1))
 
             assertEquals(1, patientAPI.numberOfPatients())
-            assertEquals(newPatient, patientAPI.findPatient(0))
+            assertEquals(dummyPatient1, patientAPI.findPatient(0))
         }
 
         @Test
         fun `adding a patient to an empty list adds to ArrayList`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val newPatient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-
-            assertTrue(patientAPI.add(newPatient))
+            assertTrue(patientAPI.add(dummyPatient1))
 
             assertEquals(1, patientAPI.numberOfPatients())
-            assertEquals(newPatient, patientAPI.findPatient(0))
+            assertEquals(dummyPatient1, patientAPI.findPatient(0))
         }
 
         @Test
         fun `adding multiple patients to the list`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val patient1 = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-            val patient2 = Patient(2, "Jane Doe", "02/02/1995", 'F', "987-654-3210")
-
-            assertTrue(patientAPI.add(patient1))
-            assertTrue(patientAPI.add(patient2))
+            assertTrue(patientAPI.add(dummyPatient1))
+            assertTrue(patientAPI.add(dummyPatient2))
 
             assertEquals(2, patientAPI.numberOfPatients())
-            assertEquals(patient1, patientAPI.findPatient(0))
-            assertEquals(patient2, patientAPI.findPatient(1))
+            assertEquals(dummyPatient1, patientAPI.findPatient(0))
+            assertEquals(dummyPatient2, patientAPI.findPatient(1))
         }
     }
 
@@ -74,9 +69,7 @@ class PatientAPITest {
 
         @Test
         fun `listAllPatients returns Patients when ArrayList has patients stored`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val newPatient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-            patientAPI.add(newPatient)
+            patientAPI.add(dummyPatient1)
 
             val patientsString = patientAPI.listAllPatients().lowercase()
 
@@ -100,65 +93,9 @@ class PatientAPITest {
             )
         }
 
-        @Nested
-        inner class AssignPatients {
-
-            @Test
-            fun `assigning a patient to a doctor returns true`() {
-                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-
-                val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
-                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-
-                doctorAPI.add(newDoctor)
-                patientAPI.add(newPatient)
-
-                // Assign the patient to the doctor
-                val assigned = doctorAPI.assignPatient(0, newPatient)
-
-                assertTrue(assigned)
-                assertEquals(newDoctor, newPatient.assignedDoctor)
-            }
-
-            @Test
-            fun `assigning a patient to a non-existing doctor returns false`() {
-                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-
-                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-                patientAPI.add(newPatient)
-
-                // Attempt to assign the patient to a non-existing doctor
-                val assigned = doctorAPI.assignPatient(0, newPatient)
-
-                assertFalse(assigned)
-            }
-
-            @Test
-            fun `assigning a patient to a doctor with invalid index returns false`() {
-                val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-                val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-
-                val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
-                val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-
-                doctorAPI.add(newDoctor)
-                patientAPI.add(newPatient)
-
-                // Attempt to assign the patient to a doctor with an invalid index
-                val assigned = doctorAPI.assignPatient(1, newPatient)
-
-                assertFalse(assigned)
-            }
-        }
-
-
         @Test
         fun `updating a patient that exists returns true and updates`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val patient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-            patientAPI.add(patient)
+            patientAPI.add(dummyPatient1)
 
             val updated = patientAPI.updatePatient(
                 0,
@@ -185,14 +122,12 @@ class PatientAPITest {
 
         @Test
         fun `deleting a patient that exists deletes and returns deleted object`() {
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-            val patient = Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890")
-            patientAPI.add(patient)
+            patientAPI.add(dummyPatient1)
 
             val deletedPatient = patientAPI.deletePatient(0)
 
             assertEquals(0, patientAPI.numberOfPatients())
-            assertEquals(patient, deletedPatient)
+            assertEquals(dummyPatient1, deletedPatient)
         }
     }
 
@@ -202,53 +137,23 @@ class PatientAPITest {
         @Test
         fun `assigning a patient to a doctor returns true`() {
             val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-
             val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
-            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-
             doctorAPI.add(newDoctor)
-            patientAPI.add(newPatient)
 
-            // Assign the patient to the doctor
-            val assigned = doctorAPI.assignPatient(0, newPatient)
+            val assigned = doctorAPI.assignPatient(0, dummyPatient1)
 
             assertTrue(assigned)
-            assertEquals(newDoctor, newPatient.assignedDoctor)
-        }
-
-        @Test
-        fun `assigning a patient to a non-existing doctor returns false`() {
-            val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
-
-            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-            patientAPI.add(newPatient)
-
-            // Attempt to assign the patient to a non-existing doctor
-            val assigned = doctorAPI.assignPatient(0, newPatient)
-
-            assertFalse(assigned)
+            assertEquals(newDoctor, dummyPatient1.assignedDoctor)
         }
 
         @Test
         fun `assigning a patient to a doctor with invalid index returns false`() {
             val doctorAPI = DoctorAPI(XMLSerializer(File("doctors.xml")))
-            val patientAPI = PatientAPI(XMLSerializer(File("patients.xml")))
+            doctorAPI.add(Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890"))
 
-            val newDoctor = Doctor(1, "Dr. Smith", "General Medicine", "123-456-7890")
-            val newPatient = Patient(1, "John Doe", "2000-01-01", 'M', "555-1234")
-
-            doctorAPI.add(newDoctor)
-            patientAPI.add(newPatient)
-
-            // Attempt to assign the patient to a doctor with an invalid index
-            val assigned = doctorAPI.assignPatient(1, newPatient)
-
-            assertFalse(assigned)
+            assertFalse(doctorAPI.assignPatient(1, dummyPatient1))
         }
     }
-
 
     @Nested
     inner class PersistenceTests {
@@ -265,9 +170,9 @@ class PatientAPITest {
 
         @Test
         fun `saving and loading a loaded collection in XML doesn't lose data`() {
-            // Storing 3 patients to the patients.xml file.
-            patientAPI.add(Patient(1, "John Doe", "01/01/1990", 'M', "123-456-7890"))
-            patientAPI.add(Patient(2, "Jane Doe", "02/02/1995", 'F', "987-654-3210"))
+
+            patientAPI.add(dummyPatient1)
+            patientAPI.add(dummyPatient2)
             patientAPI.add(Patient(3, "Alice", "03/03/2000", 'F', "555-555-5555"))
             patientAPI.store()
 
@@ -276,8 +181,8 @@ class PatientAPITest {
 
             assertEquals(3, loadedPatients.numberOfPatients())
 
-            assertEquals(patientAPI.findPatient(0), loadedPatients.findPatient(0))
-            assertEquals(patientAPI.findPatient(1), loadedPatients.findPatient(1))
+            assertEquals(dummyPatient1, loadedPatients.findPatient(0))
+            assertEquals(dummyPatient2, loadedPatients.findPatient(1))
             assertEquals(patientAPI.findPatient(2), loadedPatients.findPatient(2))
         }
     }

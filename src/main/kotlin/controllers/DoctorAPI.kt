@@ -17,6 +17,7 @@ class DoctorAPI(serializerType: Serializer) {
             true
         } else false
 
+
     fun unassignPatient(doctorIndex: Int, patient: Patient): Boolean =
         if (isValidListIndex(doctorIndex, doctors)) {
             val doctor = doctors[doctorIndex]
@@ -29,9 +30,24 @@ class DoctorAPI(serializerType: Serializer) {
     fun add(doctor: Doctor): Boolean = doctors.add(doctor)
 
 
+
+
     fun listAllDoctors(): String =
         if (doctors.isEmpty()) "No doctors stored"
         else doctors.joinToString("\n") { "${doctors.indexOf(it) + 1}: $it" }
+
+
+
+    fun listDoctorsBySpecialization(specialization: String): String {
+        val filteredDoctors = doctors.filter { it.specialization == specialization }
+
+        return if (filteredDoctors.isEmpty()) {
+            "No doctors found for the specialization: $specialization"
+        } else {
+            "Here are the doctors that specialize in: $specialization\n" +
+                    filteredDoctors.joinToString("\n") { "${it.doctorID}: $it" }
+        }
+    }
 
 
 
@@ -60,6 +76,8 @@ class DoctorAPI(serializerType: Serializer) {
     }
 
     fun isValidIndex(index: Int): Boolean = isValidListIndex(index, doctors)
+
+
 
 
     @Throws(Exception::class)
