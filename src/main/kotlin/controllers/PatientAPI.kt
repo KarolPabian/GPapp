@@ -29,11 +29,8 @@ class PatientAPI(serializerType: Serializer) {
         } else null
     }
 
-    fun findPatient(index: Int): Patient? {
-        return if (isValidListIndex(index, patients)) {
-            patients[index]
-        } else null
-    }
+    fun findPatient(index: Int): Patient? =
+        if (isValidListIndex(index, patients)) patients[index] else null
 
     fun updatePatient(indexToUpdate: Int, updatedPatient: Patient?): Boolean {
         val foundPatient = findPatient(indexToUpdate)
